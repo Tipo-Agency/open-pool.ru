@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Thermometer, Clock, Droplets, Trophy, Waves, MapPin, ChevronRight, Phone, ShieldCheck, Star } from 'lucide-react';
+import { ArrowRight, Thermometer, Clock, Droplets, Trophy, Waves, MapPin, ChevronRight, Phone, ShieldCheck, Star, Smartphone } from 'lucide-react';
 import { SectionTitle, Button, Card, Badge } from '../components/ui';
 import { ContactForm } from '../components/ContactForm';
 import { useModal } from '../contexts/ModalContext';
@@ -94,17 +94,17 @@ export const Home: React.FC = () => {
             { 
               title: 'Спортивное плавание', 
               desc: 'Профессиональные тренировки для взрослых и детей. Подготовка к соревнованиям.',
-              image: '/habarovsk-basseĭn_ad1.webp'
+              image: '/sport-swimming.jpg'
             },
             { 
               title: 'Обучение плаванию', 
               desc: 'Групповые и индивидуальные занятия для новичков. Уверенность на воде за 8 уроков.',
-              image: '/habarovsk-basseĭt-2_e16.webp'
+              image: '/learn-swimming.jpg'
             },
             { 
               title: 'Аква-фитнес', 
               desc: 'Эффективные тренировки в воде. Снижение веса и укрепление мышц без нагрузки на суставы.',
-              image: '/5193697.webp'
+              image: '/otkrytyy-basseyn-hab.jpg'
             },
           ].map((service, idx) => (
             <div key={idx} className="group relative rounded-[2rem] overflow-hidden aspect-[4/5] shadow-lg hover:-translate-y-2 transition-all duration-500">
@@ -155,7 +155,7 @@ export const Home: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <img src="/IMG_9470_1_1.jpg" className="rounded-3xl w-full h-64 object-cover" alt="Pool feature 1" />
-              <img src="/XXXL_1_1.jpg" className="rounded-3xl w-full h-80 object-cover mt-8" alt="Pool feature 2" />
+              <img src="/5193697.webp" className="rounded-3xl w-full h-80 object-cover mt-8" alt="Pool feature 2" />
             </div>
           </div>
         </div>
@@ -219,7 +219,60 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 6. CONTACT FORM SECTION */}
+      {/* 6. MOBILE APP SECTION */}
+      <section className="container mx-auto px-6">
+        <div className="bg-white rounded-[2.5rem] shadow-soft p-10 md:p-16 border border-slate-100 overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-brand-blue/10 text-brand-blue rounded-full">
+                <Smartphone className="w-5 h-5" />
+                <span className="text-sm font-bold uppercase tracking-wider">Мобильное приложение</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-slate-900">
+                Управляйте абонементом<br />из любого места
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                Скачайте приложение на ваш смартфон и получите полный контроль над абонементом: покупка, продление, заморозка и многое другое.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <a 
+                  href="https://apps.apple.com/ru/app/%D1%84%D0%BA-%D0%BD%D0%B0%D1%83%D1%82%D0%B8%D0%BB%D1%83%D1%81/id1057973232"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-3 bg-black text-white px-6 py-4 rounded-2xl hover:bg-slate-800 transition-colors font-medium"
+                >
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                  </svg>
+                  App Store
+                </a>
+                <a 
+                  href="https://play.google.com/store/apps/details?id=com.itrack.nautilus&hl=ru"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-3 bg-black text-white px-6 py-4 rounded-2xl hover:bg-slate-800 transition-colors font-medium"
+                >
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                  </svg>
+                  Google Play
+                </a>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="relative z-10 rounded-[2rem] overflow-hidden">
+                <img 
+                  src="/mobile-app.png" 
+                  alt="Мобильное приложение ОПБ" 
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. CONTACT FORM SECTION */}
       <section className="container mx-auto px-6">
         <ContactForm />
       </section>

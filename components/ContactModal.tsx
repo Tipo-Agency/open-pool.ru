@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { X, Send, CheckCircle2, Phone, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from './ui';
+import { PageRoute } from '../types';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -128,7 +130,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
             </form>
             
             <p className="mt-6 text-[10px] text-slate-400 text-center">
-              Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности и обработки персональных данных.
+              Нажимая кнопку, вы соглашаетесь с{' '}
+              <Link to={PageRoute.PRIVACY} className="text-brand-blue hover:underline" onClick={(e) => e.stopPropagation()}>
+                политикой конфиденциальности
+              </Link>
+              {' '}и обработки персональных данных.
             </p>
           </>
         )}

@@ -9,6 +9,9 @@ import { Tariffs } from './pages/Tariffs';
 import { Schedule } from './pages/Schedule';
 import { Team } from './pages/Team';
 import { Corporate } from './pages/Corporate';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
+import { TermsOfService } from './pages/TermsOfService';
+import { RulesOfVisit } from './pages/RulesOfVisit';
 import { PageRoute } from './types';
 
 const ScrollToTop = () => {
@@ -34,6 +37,9 @@ const AppContent: React.FC = () => {
           <Route path={PageRoute.SCHEDULE} element={<Schedule />} />
           <Route path={PageRoute.TEAM} element={<Team />} />
           <Route path={PageRoute.CORPORATE} element={<Corporate />} />
+          <Route path={PageRoute.PRIVACY} element={<PrivacyPolicy />} />
+          <Route path={PageRoute.TERMS} element={<TermsOfService />} />
+          <Route path={PageRoute.RULES} element={<RulesOfVisit />} />
           {/* Fallback placeholders for other pages */}
           <Route path="*" element={<Home />} />
         </Routes>

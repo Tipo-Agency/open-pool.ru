@@ -90,7 +90,7 @@ export const COACHES: Coach[] = [
     name: 'Алексей Водников',
     role: 'Старший тренер',
     specialization: 'Спортивное плавание, подготовка к соревнованиям',
-    image: '/1651573524_01.jpeg'
+    image: '/coach.jpg'
   },
   {
     id: 'c2',
