@@ -104,28 +104,30 @@ export const sendWebhookRequest = async (
       ...analytics,
     };
 
-    // Пробуем через прокси (работает если настроен nginx или в dev через Vite)
-    try {
-      const response = await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+    // В dev режиме пробуем через прокси Vite
+    // В production сразу используем прямой URL с no-cors (обходит CORS)
+    const isDev = typeof import.meta !== 'undefined' && (import.meta as any).env?.MODE === 'development';
+    if (isDev) {
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
 
-      if (response.ok) {
-        return true;
+        if (response.ok) {
+          return true;
+        }
+      } catch (proxyError) {
+        // В dev режиме прокси должен работать, но на всякий случай fallback
+        console.warn('Dev proxy failed, using direct URL:', proxyError);
       }
-      
-      // Если прокси не работает (404 или другой статус), пробуем прямой URL
-      console.warn('Proxy request returned non-OK status:', response.status);
-    } catch (proxyError) {
-      console.warn('Proxy request failed, trying direct URL with no-cors:', proxyError);
     }
     
-    // Если прокси не работает, пробуем прямой URL с no-cors
-    // Это не даст проверить статус, но отправит данные
+    // Прямой запрос с no-cors (работает в production, обходит CORS)
+    // В режиме no-cors мы не можем проверить response, но запрос отправится
     try {
       await fetch(WEBHOOK_DIRECT_URL, {
         method: 'POST',
@@ -135,23 +137,25 @@ export const sendWebhookRequest = async (
         },
         body: JSON.stringify(data),
       });
-      // В режиме no-cors мы не можем проверить response, но если нет ошибки - считаем успешным
+      // В режиме no-cors нет ошибки = запрос отправился успешно
       return true;
     } catch (directError) {
-      console.error('Direct request also failed:', directError);
-      // Последняя попытка через sendBeacon
+      console.warn('Direct fetch failed, trying sendBeacon:', directError);
+      
+      // Последняя попытка через sendBeacon (работает даже при CORS)
       if (navigator.sendBeacon) {
         const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
         const sent = navigator.sendBeacon(WEBHOOK_DIRECT_URL, blob);
         return sent;
       }
+      
       return false;
     }
   } catch (error) {
     console.error('Webhook error:', error);
     
-    // Если это CORS ошибка в production, пробуем sendBeacon как fallback
-    if (!import.meta.env.DEV && navigator.sendBeacon) {
+    // Последняя попытка через sendBeacon как fallback
+    if (navigator.sendBeacon) {
       try {
         const utm = getUtmParams();
         const analytics = getAnalyticsIds();
