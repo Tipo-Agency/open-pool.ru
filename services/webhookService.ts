@@ -1,4 +1,9 @@
-const WEBHOOK_URL = 'https://cloud.1c.fitness/api/hs/lead/Webhook/86c0fd3d-e370-4499-9ed2-e032832de2dc';
+// Используем прокси в dev и production режимах
+// В dev: прокси через Vite
+// В production: прокси через nginx (нужно настроить на сервере)
+// Если прокси не настроен в production, используем прямой URL (может не работать из-за CORS)
+const WEBHOOK_URL = '/api/webhook';
+const WEBHOOK_DIRECT_URL = 'https://cloud.1c.fitness/api/hs/lead/Webhook/86c0fd3d-e370-4499-9ed2-e032832de2dc';
 
 interface WebhookData {
   name?: string;
@@ -99,17 +104,80 @@ export const sendWebhookRequest = async (
       ...analytics,
     };
 
-    const response = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+    // Пробуем через прокси (работает если настроен nginx или в dev через Vite)
+    try {
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    return response.ok;
+      if (response.ok) {
+        return true;
+      }
+      
+      // Если прокси не работает (404 или другой статус), пробуем прямой URL
+      console.warn('Proxy request returned non-OK status:', response.status);
+    } catch (proxyError) {
+      console.warn('Proxy request failed, trying direct URL with no-cors:', proxyError);
+    }
+    
+    // Если прокси не работает, пробуем прямой URL с no-cors
+    // Это не даст проверить статус, но отправит данные
+    try {
+      await fetch(WEBHOOK_DIRECT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      // В режиме no-cors мы не можем проверить response, но если нет ошибки - считаем успешным
+      return true;
+    } catch (directError) {
+      console.error('Direct request also failed:', directError);
+      // Последняя попытка через sendBeacon
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+        const sent = navigator.sendBeacon(WEBHOOK_DIRECT_URL, blob);
+        return sent;
+      }
+      return false;
+    }
   } catch (error) {
     console.error('Webhook error:', error);
+    
+    // Если это CORS ошибка в production, пробуем sendBeacon как fallback
+    if (!import.meta.env.DEV && navigator.sendBeacon) {
+      try {
+        const utm = getUtmParams();
+        const analytics = getAnalyticsIds();
+        const { name: firstName, last_name: lastName } = splitName(name);
+        const cleanPhoneNumber = cleanPhone(phone);
+        
+        const data: WebhookData = {
+          name: firstName,
+          last_name: lastName,
+          phone: cleanPhoneNumber.startsWith('7') ? cleanPhoneNumber : `7${cleanPhoneNumber}`,
+          email: email || undefined,
+          comment: comment || 'Новая заявка с сайта',
+          ...utm,
+          ...analytics,
+        };
+        
+        const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+        const sent = navigator.sendBeacon(WEBHOOK_URL, blob);
+        // sendBeacon возвращает true даже если запрос не был отправлен сразу
+        // Поэтому считаем успешным
+        return sent;
+      } catch (beaconError) {
+        console.error('SendBeacon fallback error:', beaconError);
+      }
+    }
+    
     return false;
   }
 };

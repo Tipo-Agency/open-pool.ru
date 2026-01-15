@@ -1,0 +1,21 @@
+# Пример конфигурации nginx для проксирования webhook запросов
+# Добавьте этот блок в конфигурацию nginx вашего сайта
+
+location /api/webhook {
+    proxy_pass https://cloud.1c.fitness/api/hs/lead/Webhook/86c0fd3d-e370-4499-9ed2-e032832de2dc;
+    proxy_http_version 1.1;
+    proxy_set_header Host cloud.1c.fitness;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    
+    # CORS заголовки (если нужны)
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Methods' 'POST, OPTIONS' always;
+    add_header 'Access-Control-Allow-Headers' 'Content-Type' always;
+    
+    # Обработка preflight запросов
+    if ($request_method = 'OPTIONS') {
+        return 204;
+    }
+}
