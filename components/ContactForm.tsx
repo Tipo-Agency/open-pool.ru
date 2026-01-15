@@ -2,20 +2,37 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2 } from 'lucide-react';
 import { Button } from './ui';
+import { sendWebhookRequest } from '../services/webhookService';
 
 export const ContactForm: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [formData, setFormData] = useState({ name: '', phone: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    // Simulate API call
-    setTimeout(() => {
-      setStatus('success');
-      setFormData({ name: '', phone: '' });
-      setTimeout(() => setStatus('idle'), 5000);
-    }, 1500);
+    
+    try {
+      const success = await sendWebhookRequest(
+        formData.name,
+        formData.phone,
+        undefined,
+        'Новая заявка с сайта - главная страница'
+      );
+      
+      if (success) {
+        setStatus('success');
+        setFormData({ name: '', phone: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('idle');
+        alert('Произошла ошибка при отправке заявки. Попробуйте еще раз.');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setStatus('idle');
+      alert('Произошла ошибка при отправке заявки. Попробуйте еще раз.');
+    }
   };
 
   return (

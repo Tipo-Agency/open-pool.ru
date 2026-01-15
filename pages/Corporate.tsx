@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Building2, Users, CheckCircle2, Send, Phone, Mail, User, Briefcase } from 'lucide-react';
 import { SectionTitle, Button } from '../components/ui';
+import { sendWebhookRequest } from '../services/webhookService';
 
 export const Corporate: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
@@ -12,15 +13,38 @@ export const Corporate: React.FC = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    // Simulate API call
-    setTimeout(() => {
-      setStatus('success');
-      setFormData({ name: '', phone: '', email: '', company: '', message: '' });
-      setTimeout(() => setStatus('idle'), 5000);
-    }, 1500);
+    
+    try {
+      const commentParts = [];
+      if (formData.company) commentParts.push(`Компания: ${formData.company}`);
+      if (formData.message) commentParts.push(`Сообщение: ${formData.message}`);
+      const comment = commentParts.length > 0 
+        ? `Корпоративная заявка. ${commentParts.join('. ')}`
+        : 'Корпоративная заявка с сайта';
+      
+      const success = await sendWebhookRequest(
+        formData.name,
+        formData.phone,
+        formData.email,
+        comment
+      );
+      
+      if (success) {
+        setStatus('success');
+        setFormData({ name: '', phone: '', email: '', company: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('idle');
+        alert('Произошла ошибка при отправке заявки. Попробуйте еще раз.');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setStatus('idle');
+      alert('Произошла ошибка при отправке заявки. Попробуйте еще раз.');
+    }
   };
 
   return (

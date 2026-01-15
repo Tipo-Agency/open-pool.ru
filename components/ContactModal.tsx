@@ -3,6 +3,7 @@ import { X, Send, CheckCircle2, Phone, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui';
 import { PageRoute } from '../types';
+import { sendWebhookRequest } from '../services/webhookService';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -25,18 +26,34 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, tit
     };
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    // Simulate API call
-    setTimeout(() => {
-      setStatus('success');
-      setFormData({ name: '', phone: '' });
-      setTimeout(() => {
+    
+    try {
+      const success = await sendWebhookRequest(
+        formData.name,
+        formData.phone,
+        undefined,
+        `Заявка: ${title}`
+      );
+      
+      if (success) {
+        setStatus('success');
+        setFormData({ name: '', phone: '' });
+        setTimeout(() => {
+          setStatus('idle');
+          onClose();
+        }, 3000);
+      } else {
         setStatus('idle');
-        onClose();
-      }, 3000);
-    }, 1500);
+        alert('Произошла ошибка при отправке заявки. Попробуйте еще раз.');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setStatus('idle');
+      alert('Произошла ошибка при отправке заявки. Попробуйте еще раз.');
+    }
   };
 
   const handleClose = () => {
