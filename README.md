@@ -1,20 +1,31 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Open Pool, Хабаровск
 
-# Run and deploy your AI Studio app
+Сайт открытого бассейна сети «Наутилус»: [open-pool.ru](https://open-pool.ru/).
+Это отдельный объект сети со своими тарифами, контактами, статьями и рекламными посадочными страницами.
 
-This contains everything you need to run your app locally.
+## Источник кода
 
-View your app in AI Studio: https://ai.studio/apps/drive/1FJJzc0Ql_5t7LddPwPUS3guyJ3jV2mKj
+Эта ветка содержит исходники активного продакшен-релиза
+`/var/www/open-pool.ru/releases/20260927-seo`, снятые 28 сентября 2026 года.
+Старый сайт на Vite, ранее лежавший в `main`, заменяется рабочим сайтом на Vinext.
+Сборочные каталоги, зависимости и секреты сервера в репозиторий не входят.
 
-## Run Locally
+## Локальная проверка
 
-**Prerequisites:**  Node.js
+Нужен Node.js 22.13 или новее.
 
+```bash
+npm ci
+npm test
+node --test tests/seo-release.test.mjs
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Код страниц находится в `app/`, изображения и `llms.txt` в `public/`.
+Переменные окружения для интеграций задаются на сервере. Значения не храните в Git.
+
+## Продакшен
+
+Домен `open-pool.ru` обслуживает сервер `tipa-prod` через Nginx и сервис
+`open-pool.service`. Активный релиз указан в `WorkingDirectory` сервиса.
+Перед выпуском сравните новый релиз с текущим продом, проверьте сборку, формы,
+страницы услуг, статьи, `robots.txt` и `sitemap.xml`.
