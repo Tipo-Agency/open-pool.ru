@@ -43,9 +43,9 @@ test("renders commercial and article routes with unique SEO metadata", async () 
   const articleHtml = await articleResponse.text();
   assert.match(serviceHtml, /<title>Абонементы в открытый бассейн \| Наутилус<\/title>/i);
   assert.match(serviceHtml, /https:\/\/schema\.org.*Service/);
-  assert.match(articleHtml, /Как взрослому начать плавать с нуля в Хабаровске/);
+  assert.match(articleHtml, /Как начать плавать взрослому: план первых четырёх недель/);
   assert.match(articleHtml, /https:\/\/schema\.org.*Article/);
-  assert.match(articleHtml, /Частые вопросы/);
+  assert.match(articleHtml, /FAQPage/);
   assert.match(articleHtml, /rel="canonical" href="https:\/\/open-pool\.ru\/blog\/kak-nachat-plavat-vzroslomu"/);
   assert.match(articleHtml, /BreadcrumbList/);
   assert.match(articleHtml, /Подходящие форматы плавания/);
@@ -92,7 +92,7 @@ test("renders conversion modal, app links, map and rehabilitation content", asyn
   assert.match(homeHtml, /yandex\.ru\/map-widget\/v1/);
   assert.match(articleHtml, /Бассейн после перелома ноги/);
   assert.match(articleHtml, /rehabilitation-pool\.jpg/);
-  assert.match(blogHtml, /66(?:<!-- -->)? материалов/);
+  assert.match(blogHtml, /40(?:<!-- -->)? материалов/);
   const articleImages = [...blogHtml.matchAll(/<img src="([^"]*\/articles\/[^"]+\.jpg)"/g)].map((match) => match[1]);
   assert.equal(articleImages.length, 40);
   assert.equal(new Set(articleImages).size, 40);
@@ -167,8 +167,8 @@ test("renders current pool tariffs and the 20 visit paid-search offer", async ()
   assert.match(landingHtml, /20 посещений бассейна за 11 900 ₽/);
   assert.match(landingHtml, /595 ₽ за посещение при покупке абонемента/);
   assert.match(landingHtml, /Хочу 20 посещений/);
-  assert.match(landingHtml, /class="button button-lime pool-mobile-cta" href="#pool-lead-form"/);
-  assert.match(landingHtml, /id="pool-lead-form"/);
+  assert.match(landingHtml, /class="button button-lime ad-mobile-cta" href="#ad-lead-form"/);
+  assert.match(landingHtml, /id="ad-lead-form"/);
   assert.match(landingHtml, /Срок действия 60 дней, без заморозки/);
   assert.match(landingHtml, /Сауна, пляж и парковка не включены/);
   assert.match(landingHtml, /name="goal"[^>]*value="абонемент на 20 посещений за 11 900 ₽"/);

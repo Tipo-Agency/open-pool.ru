@@ -1,4 +1,3 @@
-import editorialContent from "./editorial-content.json";
 import { annualTariff, parkingTerms, visitPackageTerms } from "./pricing-data";
 
 export const site = {
@@ -166,18 +165,13 @@ export type Article = {
   image?: string;
   readTime: string;
   date: string;
-  modified?: string;
-  editorial?: boolean;
-  editorialImage?: string | null;
-  diagram?: string;
-  cta?: string;
   answer: string;
-  sections: { title: string; paragraphs: string[]; html?: string }[];
+  sections: { title: string; paragraphs: string[] }[];
   checklist: string[];
   faq: { q: string; a: string }[];
 };
 
-const baseArticles: Article[] = [
+export const articles: Article[] = [
   {
     slug: "reabilitaciya-posle-pereloma-nogi-basseyn",
     title: "Бассейн после перелома ноги: когда можно начинать и как возвращать нагрузку",
@@ -740,16 +734,6 @@ const baseArticles: Article[] = [
   },
 ];
 
-const revisedArticles = editorialContent as Article[];
-const revisedBySlug = new Map(revisedArticles.map((article) => [article.slug, article]));
-export const articles: Article[] = [
-  ...baseArticles.map((article) => {
-    const revision = revisedBySlug.get(article.slug);
-    return revision ? { ...article, ...revision, date: article.date } : article;
-  }),
-  ...revisedArticles.filter((article) => !baseArticles.some((existing) => existing.slug === article.slug)),
-].sort((a, b) => (b.modified ?? b.date).localeCompare(a.modified ?? a.date));
-
 export const getService = (slug: string) => services.find((item) => item.slug === slug);
 export const getArticle = (slug: string) => articles.find((item) => item.slug === slug);
 const originalArticleCovers: Record<string, string> = {
@@ -759,4 +743,4 @@ const originalArticleCovers: Record<string, string> = {
 };
 
 export const getArticleImage = (article: Article) =>
-  article.editorialImage ?? originalArticleCovers[article.slug] ?? `/articles/${article.slug}.jpg`;
+  originalArticleCovers[article.slug] ?? `/articles/${article.slug}.jpg`;

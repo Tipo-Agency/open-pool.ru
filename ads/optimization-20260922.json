@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "observed_date": "2026-09-22",
+  "status": "applied_and_verified",
+  "client_key": "open-pool.ru",
+  "operator_identity": "Codex acting for account owner",
+  "account_id": "donskikhas",
+  "currency": "RUB",
+  "report_period": {"from": "2026-09-14", "to": "2026-09-20"},
+  "sources": {
+    "direct": "Native live UI, donskikhas, reports and campaign settings",
+    "queries": "/Users/aleksandrdonskih/Downloads/2026-09-21_23-00-00_donskikhas.csv",
+    "calltouch": "Native live UI, account 32621, site 52900",
+    "query_csv_goal_selection": "all goals; not equivalent to leads",
+    "direct_attribution": "AUTOMATIC",
+    "calltouch_attribution": "last non-direct, session date"
+  },
+  "baseline": {
+    "direct_total_spend_ex_vat": 15910.84,
+    "direct_total_clicks": 172,
+    "calltouch_yandex_spend_inc_vat": 19411.22,
+    "vat_rate": 0.22,
+    "nonbrand_spend_ex_vat": 15539.49,
+    "nonbrand_clicks": 160,
+    "nonbrand_calltouch_goal_conversions": 6,
+    "nonbrand_calltouch_goal_cpa_ex_vat": 2589.91,
+    "nonbrand_calltouch_goal_ids": [612025589, 612025654],
+    "pass_group_clicks": 6,
+    "pass_group_sauna_query_clicks": 4,
+    "pass_group_sauna_query_spend": 501.53,
+    "unintegrated_source": "yandex_rsykopb",
+    "unintegrated_source_report_clicks": 1003,
+    "unintegrated_source_all_leads": 13,
+    "unintegrated_source_report_spend": 0,
+    "unlinked_deals": 321,
+    "unlinked_revenue": 305390
+  },
+  "approved_business_offer": {
+    "visits": 20,
+    "price": 11900,
+    "validity_days": 60,
+    "per_visit_if_all_used": 595,
+    "included_sauna_beach_parking": false,
+    "freeze": false
+  },
+  "draft_change": {
+    "campaign_id": "714189376",
+    "effective_time": "after exact user approval and fresh remote re-read",
+    "before": {
+      "campaign_negative_phrases": [],
+      "website_monitoring": false,
+      "callouts": ["50-метровый бассейн", "Тёплая вода круглый год", "Баня после заплыва", "Парковка"]
+    },
+    "after": {
+      "campaign_negative_phrases": ["сауна", "баня", "броско", "дельфин", "тогу", "лазурь", "бассейн лидер", "салтыкова щедрина", "бассейн на крыше"],
+      "website_monitoring": true,
+      "callouts": ["50-метровый бассейн", "Тёплая вода круглый год", "8 дорожек", "Хабаровск, Советская 1к4"]
+    },
+    "unchanged": {
+      "nonbrand_weekly_budget_ex_vat": 28000,
+      "brand_weekly_budget_ex_vat": 2000,
+      "nonbrand_average_cpc": 120,
+      "strategy": "maximum clicks",
+      "schedule": "daily, around the clock",
+      "goal_ids": [609668606, 609668626, 609668677],
+      "goal_values": [1, 1, 1],
+      "utm_and_calltouch_tm": "preserve",
+      "ad_level_overrides": "preserve",
+      "geography": "preserve"
+    },
+    "risk": "Sauna and competitor-intent reach will decline; this may also exclude some legitimate cross-service queries. Subscription offer remains the priority. No budget increase.",
+    "exposure": {
+      "nonbrand_max_week_with_30_percent_carry_ex_vat": 36400,
+      "nonbrand_max_day_with_carry_ex_vat": 12740,
+      "two_campaigns_max_week_with_carry_ex_vat": 39000,
+      "two_campaigns_max_day_with_carry_ex_vat": 13650,
+      "finite_lifetime_cap": null,
+      "note": "Existing campaigns have no observed end date. Maxima assume unchanged budgets and daily schedule. UI does not establish current carry amount. No new exposure authorized by this draft."
+    },
+    "verification": ["reopen saved campaign", "check exact negative list", "check monitoring", "check callouts", "confirm budget, CPC, goals and URL parameters unchanged"],
+    "review_window": "First 24-48 hours for search relevance; 7 completed delivery days for lead quality. No scheduled monitoring created.",
+    "rollback": "Remove only the nine added campaign negatives; restore prior monitoring and four callouts if necessary. Do not reset group negatives or delete history."
+  },
+  "remote_mutations": [{
+    "campaign_id": "714189376",
+    "approved_by": "User: применяй пакет",
+    "verified_at_utc": "2026-09-21T20:16:52Z",
+    "verification_method": "Saved in native Direct UI, reloaded and reopened additional settings; all nine negatives, monitoring and callouts confirmed",
+    "actual_campaign_negative_phrases": ["-баня", "-бассейн !на крыше", "-бассейн лидер", "-броско", "-дельфин", "-лазурь", "-салтыкова щедрина", "-сауна", "-тогу"],
+    "website_monitoring": true,
+    "actual_callouts": ["50-метровый бассейн", "Тёплая вода круглый год", "8 дорожек", "Хабаровск", "Советская 1к4"],
+    "normalization_note": "Direct normalized negative phrase syntax and split the comma-separated location into two callouts. Ad overrides retained.",
+    "unchanged": ["budgets", "average CPC", "strategy", "goals", "UTM and calltouch_tm", "geography", "ad-level overrides", "other campaigns"]
+  }],
+  "contact_reconciliation": {
+    "period_from": "2026-09-08",
+    "period_to": "2026-09-21",
+    "basis": "lead date; last non-direct; medium cpc",
+    "source_export_task": "119892",
+    "source_records": 123,
+    "distinct_normalized_client_phones": 89,
+    "purchase_status": "awaiting owner verification in 1C",
+    "personal_data_storage": "Private local workbook outside Git; no contact values in this ledger"
+  },
+  "legacy_source_evidence": {
+    "yandex_rsykopb": {"campaign_id_from_calltouch_tm": "710262777", "observed_placement": "pogoda.mail.ru", "landing": "https://open-pool.ru/", "account_owner": "not yet verified"},
+    "yandex_poiskopb": {"campaign_id_from_calltouch_tm": "710261598", "account_owner": "not yet verified"}
+  },
+  "limitations": [
+    "Unique-target events are Calltouch classifications, not manually confirmed purchases.",
+    "Some search query rows round to 0.05 RUB less than the report total.",
+    "The source account behind yandex_rsykopb is not established.",
+    "1C changes remain out of scope.",
+    "No real test lead sent in this turn.",
+    "Local tests use the existing build and a mock receiver; live HTTP checks are not an end-to-end CRM test."
+  ]
+}

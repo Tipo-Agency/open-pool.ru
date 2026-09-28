@@ -15,8 +15,6 @@ function linkKind(link: HTMLAnchorElement) {
 
 export function TrackingEvents() {
   useEffect(() => {
-    const articlePath = window.location.pathname.startsWith("/blog/") ? window.location.pathname : "";
-    if (articlePath) trackSiteEvent("article_view", { page_path: articlePath });
     const handleClick = (event: MouseEvent) => {
       const element = (event.target as HTMLElement | null)?.closest<HTMLElement>("a,button");
       if (!element) return;
@@ -30,10 +28,6 @@ export function TrackingEvents() {
       }
 
       if (element instanceof HTMLAnchorElement) {
-        const destination = new URL(element.href, window.location.origin);
-        if (articlePath && destination.origin === window.location.origin && (destination.pathname.startsWith("/uslugi/") || destination.pathname === "/ceny")) {
-          trackSiteEvent("article_service_click", { article_path: articlePath, service_path: destination.pathname });
-        }
         const kind = linkKind(element);
         if (kind) {
           trackSiteEvent(kind, {

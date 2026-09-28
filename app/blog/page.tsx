@@ -3,7 +3,7 @@ import { ArticleCards, Breadcrumbs, Footer, Header, JsonLd } from "../components
 import { articles } from "../data";
 import { createPageMetadata, SITE_URL } from "../seo";
 
-export const metadata: Metadata = createPageMetadata({ title: "Журнал о плавании", description: "Практические статьи о плавании: выбор абонемента, обучение взрослых, детские группы и подготовка к бассейну в Хабаровске.", path: "/blog" });
+export const metadata: Metadata = createPageMetadata({ title: "Журнал о плавании", description: "40 подробных статей о плавании: техника, здоровье, детские занятия, восстановление, экипировка и подготовка к бассейну.", path: "/blog" });
 
 export default function BlogPage() {
   const categories = Array.from(new Set(articles.map((item) => item.category)));

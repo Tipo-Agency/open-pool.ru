@@ -29,10 +29,6 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
-    const legacyPaths: Record<string, string> = { "/contacts": "/kontakty", "/schedule": "/raspisanie", "/services": "/uslugi" };
-    const replacement = legacyPaths[url.pathname.replace(/\/$/, "")];
-    if (replacement) return Response.redirect(new URL(replacement + url.search, "https://open-pool.ru"), 301);
-
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       return handleImageOptimization(request, {
