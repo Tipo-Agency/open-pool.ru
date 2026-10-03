@@ -41,7 +41,7 @@ test("renders commercial and article routes with unique SEO metadata", async () 
   assert.equal(articleResponse.status, 200);
   const serviceHtml = await serviceResponse.text();
   const articleHtml = await articleResponse.text();
-  assert.match(serviceHtml, /<title>Абонементы в открытый бассейн \| Наутилус<\/title>/i);
+  assert.match(serviceHtml, /<title>Абонементы в открытый бассейн в Хабаровске \| Наутилус<\/title>/i);
   assert.match(serviceHtml, /https:\/\/schema\.org.*Service/);
   assert.match(articleHtml, /Как взрослому начать плавать с нуля в Хабаровске/);
   assert.match(articleHtml, /https:\/\/schema\.org.*Article/);
@@ -49,6 +49,8 @@ test("renders commercial and article routes with unique SEO metadata", async () 
   assert.match(articleHtml, /rel="canonical" href="https:\/\/open-pool\.ru\/blog\/kak-nachat-plavat-vzroslomu"/);
   assert.match(articleHtml, /BreadcrumbList/);
   assert.match(articleHtml, /Подходящие форматы плавания/);
+  assert.match(articleHtml, /Занятия в Хабаровске/);
+  assert.match(articleHtml, /article_service_click|Посмотреть условия/);
 });
 
 test("publishes crawl directives and sitemap for the live domain", async () => {

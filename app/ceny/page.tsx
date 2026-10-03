@@ -15,7 +15,7 @@ export default function PricesPage() {
     availability: "https://schema.org/InStock",
   }));
   return <><Header /><main className="inner-page"><JsonLd data={{ "@context": "https://schema.org", "@type": "OfferCatalog", name: "Тарифы открытого бассейна Наутилус", itemListElement: schemaOffers }} /><Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Цены" }]} />
-    <section className="inner-hero"><span className="section-kicker">Тарифы от {tariffDate}</span><h1>Плавайте чаще, платите меньше за месяц</h1><p>Выбирайте карту по частоте визитов и нужным услугам. Сауна, пляж и парковка включены в разные тарифы на разных условиях.</p></section>
+    <section className="inner-hero"><span className="section-kicker">Тарифы от {tariffDate}</span><h1>Цены на открытый бассейн в Хабаровске</h1><p>Разовый заплыв от 500 ₽ и абонементы «Наутилуса» на Советской, 1 к4. Выбирайте карту по частоте визитов и нужным услугам. Сауна, пляж и парковка включены в разные тарифы на разных условиях.</p></section>
     <section className="membership-offer">
       <div><span>Наш выбор для старта</span><h2>3 месяца безлимитного плавания</h2><p>50-метровый бассейн под открытым небом, баня после заплыва, пляж и парковка.</p></div>
       <div className="membership-offer-price"><strong>{featuredTariff.price} ₽</strong><span>за 90 дней</span><small>{featuredTariff.summary} при оплате всего абонемента</small></div>

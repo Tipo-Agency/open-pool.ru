@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleCards, Breadcrumbs, Footer, Header, JsonLd, PageCta } from "../../components";
-import { articles, getArticle, getArticleImage, services } from "../../data";
+import { articles, getArticle, getArticleImage, getService, services, site } from "../../data";
 import { createPageMetadata, SITE_URL } from "../../seo";
 
 export function generateStaticParams() { return articles.map((item) => ({ slug: item.slug })); }
@@ -29,6 +29,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const relatedServices = (serviceSlugsByCategory[article.category] ?? [])
     .map((serviceSlug) => services.find((service) => service.slug === serviceSlug))
     .filter((service) => service !== undefined);
+  const contextualService = article.cta?.startsWith("/uslugi/") ? getService(article.cta.slice("/uslugi/".length)) : undefined;
   const schemas = [
     { "@context": "https://schema.org", "@type": "Article", "@id": `${SITE_URL}/blog/${article.slug}#article`, headline: article.title, description: article.description, image: articleImageUrl, datePublished: article.date, dateModified: article.modified ?? article.date, inLanguage: "ru-RU", mainEntityOfPage: `${SITE_URL}/blog/${article.slug}`, articleSection: article.category, keywords: [article.category, "плавание", "бассейн Хабаровск"], isPartOf: { "@id": `${SITE_URL}/blog#collection` }, about: { "@id": `${SITE_URL}/#pool` }, author: { "@type": "Organization", name: article.editorial ? "Редакция сайта «Наутилус»" : "Тренерская команда бассейна «Наутилус»", url: `${SITE_URL}/o-basseyne` }, publisher: { "@id": `${SITE_URL}/#organization`, "@type": "Organization", name: "Открытый бассейн «Наутилус»", logo: { "@type": "ImageObject", url: `${SITE_URL}/logo-nautilus.svg` } } },
     ...(article.faq.length ? [{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: article.faq.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })) }] : []),
@@ -36,6 +37,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   return <><Header /><main className="article-page"><JsonLd data={schemas} /><Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Журнал", href: "/blog" }, { label: article.title }]} />
     <article><header className="article-header"><div className="article-meta"><span>{article.category}</span><span>{article.readTime}</span><span>{published}</span>{article.modified && <span>Обновлено: {new Intl.DateTimeFormat("ru-RU").format(new Date(article.modified))}</span>}</div><h1>{article.title}</h1><p>{article.description}</p></header><figure className="article-hero-image"><img src={articleImage} alt={article.title} /></figure>
       <div className="article-answer"><span>Короткий ответ</span><p>{article.answer}</p></div>
+      {contextualService && <aside className="article-local-cta" aria-label="Занятия в Хабаровске">
+        <div><span>Наутилус, Хабаровск</span><strong>{contextualService.shortTitle}</strong><p>Открытый бассейн на Советской, 1 к4. {contextualService.price === "по расписанию" ? "Время и стоимость занятия уточнит администратор." : `Стоимость ${contextualService.price}. Условия посещения уточнит администратор.`}</p></div>
+        <div className="article-local-cta-actions"><a className="button button-lime" href={article.cta}>Посмотреть условия</a><a href="#booking" data-booking data-goal={contextualService.shortTitle} data-form-name={`Статья: ${article.slug}`} data-submit-label="Уточнить запись">Уточнить запись</a></div>
+      </aside>}
       {article.diagram && <figure className="article-guide-image"><img src={article.diagram} alt="Памятка по теме статьи" width="1200" height="630" loading="lazy" /></figure>}
       <div className="article-body"><aside><strong>В этой статье</strong>{article.sections.map((section) => <a key={section.title} href={`#${section.title.toLowerCase().replaceAll(" ", "-")}`}>{section.title}</a>)}</aside><div className="article-content">
         {article.sections.map((section) => <section key={section.title} id={section.title.toLowerCase().replaceAll(" ", "-")}><h2>{section.title}</h2>{section.html ? <div dangerouslySetInnerHTML={{ __html: section.html }} /> : section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
@@ -47,5 +52,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <section className="article-service-section"><div className="section-heading"><span className="section-kicker">Перейти к практике</span><h2>Подходящие форматы плавания</h2></div><div className="article-service-links">{relatedServices.map((service) => <a key={service.slug} href={`/uslugi/${service.slug}`}><span>{service.eyebrow}</span><strong>{service.shortTitle}</strong><small>{service.price}</small></a>)}</div></section>
     <section className="related-articles"><div className="section-heading"><span className="section-kicker">Читайте дальше</span><h2>Ещё о плавании</h2></div><ArticleCards limit={3} exclude={article.slug} /></section>
     <PageCta title="Перейдите от чтения к воде" text="Подберём первое посещение, группу или абонемент под ваш уровень и график." />
+    {contextualService && <nav className="article-mobile-cta" aria-label="Быстрый переход к занятиям"><a href={article.cta}>Занятия в Хабаровске</a><a href={`tel:${site.phoneHref}`}>Позвонить</a></nav>}
   </main><Footer /></>;
 }
