@@ -73,7 +73,7 @@ export function normalizePublicSchedule(payload: unknown): ScheduleItem[] | null
   const items: ScheduleItem[] = [];
   for (const row of rows) {
     const item = record(row);
-    const title = label(value(item, ["service_name", "appointment_name", "title", "name", "service", "ServiceName", "AppointmentName", "Title", "Name"]));
+    const title = label(value(item, ["service_name", "appointment_name", "service", "ServiceName", "AppointmentName"]));
     const start = localDateTime(value(item, ["start_date", "start_at", "date_start", "start", "StartDate", "StartAt", "Start"]));
     const separateDate = localDateTime(value(item, ["date", "Date"]));
     const date = start?.date || separateDate?.date || "";
