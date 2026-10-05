@@ -9,3 +9,5 @@
 Воспроизведение: node build.mjs, HyperFrames 0.8.46 lint/snapshot/render, snapshot at 1,3.3,4.5,7.7. Требуются assets/arial.ttf, arial-bold.ttf, gsap.min.js и pool-view.jpg. Техническая проверка: h264, 720x720, 30fps, 240 кадров, 8 секунд, cadence pass. Encoded frame проверен визуально. Плавность воспроизведения в плеере отдельно не проверена.
 
 Экспорты: public/promo/2026-10. Официальные требования видео: https://yandex.ru/support/direct/ru/efficiency/video, проверены 06 октября 2026 по времени Хабаровска.
+
+Версия v2: основные тексты сдвинуты внутрь центральной области для вертикального кадрирования. Экспорты offer-30-visits-safe.png, offer-499-safe.png, openpool-30-visits-square-v2.mp4. Визуально проверены кадры 1, 4.5 и 7.76 секунды. Техническая проверка MP4 пройдена.
