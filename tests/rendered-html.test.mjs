@@ -177,6 +177,20 @@ test("renders current pool tariffs and the 20 visit paid-search offer", async ()
   assert.doesNotMatch(landingHtml, /Зафиксировать тариф|21 500/);
 });
 
+test("renders the new promotion with full price and a distinct lead form", async () => {
+  const response = await render("/reklama/30-poseshcheniy");
+  assert.equal(response.status, 200);
+  const html = (await response.text()).replace(/<!--.*?-->/g, "");
+  assert.match(html, /30 посещений бассейна\. Баня в подарок/);
+  assert.match(html, /Полная оплата абонемента: 14 970 ₽/);
+  assert.match(html, /499 ₽ за посещение в абонементе/);
+  assert.match(html, /Срок действия 90 дней, сеанс 70 минут/);
+  assert.match(html, /Реклама: акция 30 посещений \+ баня/);
+  assert.match(html, /Парковка не включена/);
+  assert.match(html, /name="robots" content="noindex, follow/);
+  assert.doesNotMatch(html, /20 посещений бассейна за 11 900/);
+});
+
 test("September tariffs separate included amenities and publish accurate offer prices", async () => {
   const response = await render("/ceny");
   const html = (await response.text()).replace(/<!--.*?-->/g, "");

@@ -66,6 +66,7 @@ export default async function AdLandingPage({ params }: { params: Promise<{ slug
           <div className="pool-hero-shade" />
           <div className="pool-hero-copy">
             <span>{landing.eyebrow}</span>
+            {landing.promotion && <p className="pool-promotion-deadline">{landing.promotion.deadlineLabel}</p>}
             <h1>{landing.title}</h1>
             <p>{landing.description}</p>
             <strong>{landing.price}</strong>
@@ -89,7 +90,7 @@ export default async function AdLandingPage({ params }: { params: Promise<{ slug
         <section className="pool-benefits">
           {landing.benefits.map((benefit, index) => <article key={benefit.title}><span>0{index + 1}</span><h2>{benefit.title}</h2><p>{benefit.text}</p></article>)}
         </section>
-        <p className="tariff-disclaimer">Состав услуг зависит от выбранного тарифа. {parkingTerms} <a href="/ceny">Сравнить тарифы</a></p>
+        <p className="tariff-disclaimer">{landing.amenityNote ?? `Состав услуг зависит от выбранного тарифа. ${parkingTerms}`} <a href="/ceny">Сравнить тарифы</a></p>
 
         <section className="pool-proof-section">
           <div><span className="section-kicker">Наутилус в Хабаровске</span><h2>Большая вода, свежий воздух и понятный первый шаг</h2><p>Бассейн работает круглый год. Перед визитом администратор подтвердит актуальный слот и ответит на вопросы по подготовке.</p><ul><li>Будни 06:00-22:00</li><li>Выходные 07:00-22:00</li><li>Восемь дорожек по 50 метров</li><li>Сауна и парковка: условия зависят от тарифа</li></ul><a className="text-link" href={landing.serviceHref}>Подробнее об услуге <span>→</span></a></div>

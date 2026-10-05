@@ -962,6 +962,7 @@ tbody th { width: 180px; }
 .pool-hero-copy > p { max-width: 620px; color: rgba(255,255,255,.78); font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; }
 .pool-hero-copy > strong { display: block; margin-top: 28px; color: var(--lime); font-family: var(--font-unbounded); font-size: 22px; }
 .pool-hero-copy > .pool-offer-terms { margin-top: 16px; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.88); }
+.pool-hero-copy > .pool-promotion-deadline { display: inline-block; margin: 18px 0 0; padding: 9px 14px; border-radius: 999px; color: var(--ink); background: var(--lime); font-size: 13px; font-weight: 750; }
 .pool-mobile-cta { display: none; margin-top: 22px; }
 #pool-lead-form { scroll-margin-top: 24px; }
 .pool-hero-facts { margin-top: 42px; display: flex; flex-wrap: wrap; gap: 8px; }
