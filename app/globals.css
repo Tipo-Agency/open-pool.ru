@@ -441,6 +441,10 @@ h1 {
   .membership-offer .button { justify-self: start; }
 }
 .schedule-card { padding: 40px; border-radius: 28px; background: white; box-shadow: 0 20px 70px rgba(7,30,51,.06); }
+.schedule-current { margin-top: 24px; }
+.schedule-current h2 { margin: 12px 0; font-family: var(--font-unbounded); font-size: 30px; }
+.schedule-current p, .schedule-card > p { color: var(--ink-soft); line-height: 1.65; }
+.schedule-current .app-buttons { margin-top: 24px; }
 .schedule-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 28px; }
 .schedule-head h2 { margin: 0; font-family: var(--font-unbounded); font-size: 34px; }
 .schedule-head p { margin: 0; color: var(--ink-soft); line-height: 1.6; }
