@@ -1,0 +1,61 @@
+{
+  "https://static.tildacdn.com/tild6531-3337-4263-b764-653863396432/_O1A6186_1.jpg": {
+    "name": "pool",
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "https://static.tildacdn.com/tild3338-3030-4634-b838-386663356636/_O1A6352_12312321.jpg": {
+    "name": "swim",
+    "width": 700,
+    "height": 466,
+    "widths": [
+      480,
+      700
+    ]
+  },
+  "https://static.tildacdn.com/tild3632-3066-4539-b366-333165643136/_O1A6403_1.jpg": {
+    "name": "training",
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "https://static.tildacdn.com/tild3835-3936-4439-a362-326638666465/father-daughter-swim.jpg": {
+    "name": "family",
+    "width": 700,
+    "height": 467,
+    "widths": [
+      480,
+      700
+    ]
+  },
+  "https://static.tildacdn.com/tild3030-6538-4865-b264-313364363566/beautiful-young-woma.jpg": {
+    "name": "aqua",
+    "width": 700,
+    "height": 466,
+    "widths": [
+      480,
+      700
+    ]
+  },
+  "https://static.tildacdn.com/tild3964-3538-4339-a437-653936343238/VDRS8117_1.jpg": {
+    "name": "evening",
+    "width": 1067,
+    "height": 1600,
+    "widths": [
+      480,
+      800,
+      1067
+    ]
+  }
+}

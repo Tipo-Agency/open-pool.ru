@@ -1,3 +1,4 @@
+import { poolImageProps } from "../../pool-image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleCards, Breadcrumbs, Footer, Header, JsonLd, PageCta } from "../../components";
@@ -35,7 +36,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     ...(article.faq.length ? [{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: article.faq.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })) }] : []),
   ];
   return <><Header /><main className="article-page"><JsonLd data={schemas} /><Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Журнал", href: "/blog" }, { label: article.title }]} />
-    <article><header className="article-header"><div className="article-meta"><span>{article.category}</span><span>{article.readTime}</span><span>{published}</span>{article.modified && <span>Обновлено: {new Intl.DateTimeFormat("ru-RU").format(new Date(article.modified))}</span>}</div><h1>{article.title}</h1><p>{article.description}</p></header><figure className="article-hero-image"><img src={articleImage} alt={article.title} /></figure>
+    <article><header className="article-header"><div className="article-meta"><span>{article.category}</span><span>{article.readTime}</span><span>{published}</span>{article.modified && <span>Обновлено: {new Intl.DateTimeFormat("ru-RU").format(new Date(article.modified))}</span>}</div><h1>{article.title}</h1><p>{article.description}</p></header><figure className="article-hero-image"><img {...poolImageProps(articleImage, true, "(max-width: 900px) 100vw, 900px")} alt={article.title} /></figure>
       <div className="article-answer"><span>Короткий ответ</span><p>{article.answer}</p></div>
       {contextualService && <aside className="article-local-cta" aria-label="Занятия в Хабаровске">
         <div><span>Наутилус, Хабаровск</span><strong>{contextualService.shortTitle}</strong><p>Открытый бассейн на Советской, 1 к4. {contextualService.price === "по расписанию" ? "Время и стоимость занятия уточнит администратор." : `Стоимость ${contextualService.price}. Условия посещения уточнит администратор.`}</p></div>
