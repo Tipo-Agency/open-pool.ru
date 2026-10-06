@@ -60,7 +60,6 @@ export function Footer() {
           <strong>Связаться</strong>
           <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
           <a href={site.vkMessages} target="_blank" rel="noreferrer">Написать во ВКонтакте</a>
-          <a href={site.max} target="_blank" rel="noreferrer">MAX</a>
           <a href={site.instagram} target="_blank" rel="noreferrer">Instagram</a>
           <a href={site.vk} target="_blank" rel="noreferrer">VK</a>
           <span>{site.address}</span>

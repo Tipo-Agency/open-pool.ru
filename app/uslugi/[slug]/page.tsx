@@ -1,3 +1,5 @@
+import { ServiceVisitDetails } from "../../service-visit-details";
+import { poolImageProps } from "../../pool-image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs, Footer, Header, JsonLd, PageCta } from "../../components";
@@ -18,9 +20,10 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: service.faq.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })) },
   ];
   return <><Header /><main className="inner-page"><JsonLd data={schema} /><Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Услуги", href: "/uslugi" }, { label: service.shortTitle }]} />
-    <section className="service-detail-hero"><div><span className="section-kicker">{service.eyebrow}</span><h1>{service.title}</h1><p>{service.description}</p><div className="hero-actions"><a className="button" href="#booking" data-booking>Узнать условия</a><strong>{service.price}</strong></div></div><div><img src={service.image} alt={service.title} /><span>{service.price}</span></div></section>
+    <section className="service-detail-hero"><div><span className="section-kicker">{service.eyebrow}</span><h1>{service.title}</h1><p>{service.description}</p><div className="hero-actions"><a className="button" href="#booking" data-booking>Узнать условия</a><strong>{service.price}</strong></div></div><div><img {...poolImageProps(service.image, true)} alt={service.title} /><span>{service.price}</span></div></section>
     <section className="benefit-row">{service.benefits.map((item, index) => <div key={item}><b>0{index + 1}</b><span>{item}</span></div>)}</section>
     <section className="content-sections">{service.sections.map((section, index) => <article key={section.title}><span>0{index + 1}</span><div><h2>{section.title}</h2><p>{section.text}</p></div></article>)}</section>
+    <ServiceVisitDetails slug={service.slug} />
     <section className="faq-section"><div><span className="section-kicker">Короткие ответы</span><h2>Частые вопросы</h2></div><div>{service.faq.map((item) => <details key={item.q}><summary>{item.q}<span>+</span></summary><p>{item.a}</p></details>)}</div></section>
     <PageCta title={`Записаться: ${service.shortTitle.toLowerCase()}`} text="Оставьте удобный контакт. Администратор уточнит время, стоимость и ответит на вопросы." />
   </main><Footer /></>;

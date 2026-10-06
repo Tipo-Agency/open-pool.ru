@@ -1,3 +1,4 @@
+import { poolImageProps } from "./pool-image";
 /* eslint-disable @next/next/no-html-link-for-pages */
 import type { Metadata } from "next";
 import { ArticleCards, Footer, Header, JsonLd, YandexMap } from "./components";
@@ -76,13 +77,13 @@ export default function Home() {
         <Header />
         <main>
           <section className="hero hero-v2">
-            <img className="hero-backdrop" src={images.pool} alt="Открытый 50-метровый бассейн Наутилус в Хабаровске" />
+            <img className="hero-backdrop" {...poolImageProps(images.pool, true, "100vw")} alt="Открытый 50-метровый бассейн Наутилус в Хабаровске" />
             <div className="hero-shade" />
             <div className="hero-orbit" aria-label="Температура воды около плюс двадцати восьми градусов">
               <span>вода</span><strong>+28°</strong><i>круглый год</i>
             </div>
             <div className="hero-stage">
-              <div className="hero-index"><span>27°28′ с. ш.</span><span>Хабаровск</span><span>06:00-22:00</span></div>
+              <div className="hero-index"><span>48°28′51″ с. ш.</span><span>Хабаровск</span><span>Будни 06:00-22:00 · Выходные 07:00-22:00</span></div>
               <h1>
                 <span className="hero-line hero-line-top">50 метров</span>
                 <span className="hero-line hero-line-accent">свободы</span>
@@ -116,7 +117,7 @@ export default function Home() {
             </div>
             <p className="manifesto-statement">Пока город мёрзнет, <span>вы плывёте</span> свои 50 метров в тёплой воде</p>
             <div className="manifesto-grid">
-              <div className="manifesto-image"><img src={images.swim} alt="Пловец на дорожке открытого бассейна" /><span>Свежий воздух<br />вместо потолка</span></div>
+              <div className="manifesto-image"><img {...poolImageProps(images.swim)} alt="Пловец на дорожке открытого бассейна" /><span>Свежий воздух<br />вместо потолка</span></div>
               <div className="manifesto-stat"><strong>365</strong><span>дней открыты<br />для плавания</span></div>
               <div className="manifesto-copy"><b>Зима здесь выглядит иначе</b><p>Пар над водой, снег на бортике и длинная дорожка впереди. После заплыва вас ждёт горячая баня. Летом к ней добавляется пляж с лежаками.</p><a className="text-link" href="/o-basseyne">Почувствовать атмосферу <span>→</span></a></div>
             </div>
@@ -130,7 +131,7 @@ export default function Home() {
           <div className="service-grid">
             {services.map((item, index) => (
               <article className={`service-card service-card-${index + 1}`} key={item.slug}>
-                <img src={item.image} alt={`${item.shortTitle} в открытом бассейне Наутилус`} />
+                <img {...poolImageProps(item.image, false, "(max-width: 760px) 100vw, 33vw")} alt={`${item.shortTitle} в открытом бассейне Наутилус`} />
                 <div className="service-overlay" />
                 <span className="service-number">0{index + 1}</span>
                 <div className="service-card-body">
@@ -154,7 +155,7 @@ export default function Home() {
             <p>Плывите длинные серии без частых разворотов. После дорожки прогрейтесь в бане, а летом отдохните на пляже.</p>
             <a className="button button-lime" href="/o-basseyne">Узнать о бассейне</a>
           </div>
-          <div className="feature-image"><img src={images.evening} alt="Вечернее плавание в открытом бассейне" /><span>50 м</span></div>
+          <div className="feature-image"><img {...poolImageProps(images.evening)} alt="Вечернее плавание в открытом бассейне" /><span>50 м</span></div>
           <div className="feature-list">
             <div><b>01</b><strong>Настоящая спортивная дистанция</strong><p>50 метров от бортика до бортика. Меньше разворотов, больше плавания.</p></div>
             <div><b>02</b><strong>Комфорт круглый год</strong><p>Поддерживаем температуру воды около +28 °C даже зимой.</p></div>

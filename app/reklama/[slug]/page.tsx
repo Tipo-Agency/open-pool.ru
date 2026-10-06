@@ -1,3 +1,4 @@
+import { poolImageProps } from "../../pool-image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BrandLogo } from "../../brand-logo";
@@ -62,7 +63,7 @@ export default async function AdLandingPage({ params }: { params: Promise<{ slug
       </header>
       <main>
         <section className="pool-hero">
-          <img src={landing.image} alt={landing.title} />
+          <img {...poolImageProps(landing.image, true, "100vw")} alt={landing.title} />
           <div className="pool-hero-shade" />
           <div className="pool-hero-copy">
             <span>{landing.eyebrow}</span>
