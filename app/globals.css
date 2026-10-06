@@ -731,7 +731,7 @@ tbody th { width: 180px; }
   .hero-index { gap: 9px; font-size: 7px; }
   .hero-index span + span::before { margin-inline-end: 9px; }
   .hero-v2 h1 { margin-block: auto 42px; font-size: clamp(51px, 17vw, 78px); line-height: .84; }
-  .hero-line-accent { margin-inline-start: 0; }
+  .hero-line-accent { margin-inline-start: 0; font-size: .88em; }
   .hero-line-bottom { margin-inline-start: 0; font-size: .35em; line-height: 1.1; text-wrap: balance; }
   .hero-orbit { inset-block-start: 94px; inset-inline-end: 16px; width: 118px; }
   .hero-orbit strong { font-size: 27px; }
