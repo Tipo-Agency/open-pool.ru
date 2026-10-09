@@ -34,6 +34,16 @@ test("server-renders the finished pool homepage", async () => {
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
+test("schedule page stays useful when the 1C feed is not configured", async () => {
+  const response = await render("/raspisanie");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Занятия в бассейне/);
+  assert.match(html, /Расписание занятий сейчас не загружается/);
+  assert.match(html, /Будни:/);
+  assert.doesNotMatch(html, /schedule-live|Свободных мест:/);
+});
+
 test("renders commercial and article routes with unique SEO metadata", async () => {
   const serviceResponse = await render("/uslugi/abonementy");
   const articleResponse = await render("/blog/kak-nachat-plavat-vzroslomu");
