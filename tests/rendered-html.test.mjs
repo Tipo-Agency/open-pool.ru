@@ -164,20 +164,21 @@ test("renders current pool tariffs and the 20 visit paid-search offer", async ()
   assert.match(pricesHtml, /23 900/);
   assert.match(pricesHtml, /7 967 ₽/);
   assert.match(pricesHtml, /20 дней заморозки/);
-  assert.match(pricesHtml, /65 000/);
+  assert.match(pricesHtml, /67 900/);
   assert.match(pricesHtml, /OfferCatalog/);
-  assert.match(landingHtml, /20 посещений бассейна за 11 900 ₽/);
-  assert.match(landingHtml, /595 ₽ за посещение при покупке абонемента/);
+  assert.match(landingHtml, /20 посещений бассейна за 13 400 ₽/);
+  assert.match(landingHtml, /670 ₽ за посещение при покупке абонемента/);
   assert.match(landingHtml, /Хочу 20 посещений/);
   assert.match(landingHtml, /class="button button-lime pool-mobile-cta" href="#pool-lead-form"/);
   assert.match(landingHtml, /id="pool-lead-form"/);
   assert.match(landingHtml, /Срок действия 60 дней, без заморозки/);
   assert.match(landingHtml, /Сауна, пляж и парковка не включены/);
-  assert.match(landingHtml, /name="goal"[^>]*value="абонемент на 20 посещений за 11 900 ₽"/);
+  assert.match(landingHtml, /name="goal"[^>]*value="абонемент на 20 посещений за 13 400 ₽"/);
   assert.doesNotMatch(landingHtml, /Зафиксировать тариф|21 500/);
 });
 
-test("renders the new promotion with full price and a distinct lead form", async () => {
+test("renders the new promotion with full price and a distinct lead form", async (t) => {
+  t.mock.timers.enable({ apis: ["Date"], now: new Date("2026-10-08T12:00:00Z") });
   const response = await render("/reklama/30-poseshcheniy");
   assert.equal(response.status, 200);
   const html = (await response.text()).replace(/<!--.*?-->/g, "");
@@ -188,13 +189,13 @@ test("renders the new promotion with full price and a distinct lead form", async
   assert.match(html, /Реклама: акция 30 посещений \+ баня/);
   assert.match(html, /Парковка не включена/);
   assert.match(html, /name="robots" content="noindex, follow/);
-  assert.doesNotMatch(html, /20 посещений бассейна за 11 900/);
+  assert.doesNotMatch(html, /20 посещений бассейна за 13 400/);
 });
 
 test("September tariffs separate included amenities and publish accurate offer prices", async () => {
   const response = await render("/ceny");
   const html = (await response.text()).replace(/<!--.*?-->/g, "");
-  assert.match(html, /16 сентября 2026 года/);
+  assert.match(html, /29 сентября 2026 года/);
   const cards = [...html.matchAll(/<article class="price-card[\s\S]*?<\/article>/g)].map(([card]) => card);
   const card = (name) => {
     const found = cards.find((item) => item.includes(`<h3>${name}</h3>`));
@@ -202,29 +203,32 @@ test("September tariffs separate included amenities and publish accurate offer p
     return found;
   };
   assert.equal(cards.length, 8);
-  assert.match(card("20 посещений"), /11 900/);
-  assert.match(card("20 посещений"), /595 ₽ за посещение/);
+  assert.match(card("20 посещений"), /13 400/);
+  assert.match(card("20 посещений"), /670 ₽ за посещение/);
   assert.match(card("20 посещений"), /Сауна, пляж и парковка не включены/);
   assert.match(card("30 дней"), /10 900/);
   assert.match(card("30 дней"), /<s>12 900 ₽<\/s>/);
-  assert.match(card("30 дней"), /Сауна и пляж в подарок/);
+  assert.match(card("30 дней"), /Сауна в подарок/);
   assert.match(card("30 дней"), /Парковка не включена/);
   for (const name of ["90 дней", "180 дней", "365 дней"]) {
     assert.match(card(name), /Сауна, пляж и парковка включены/);
   }
-  assert.match(card("180 дней"), /35 900/);
-  assert.match(card("Семейный: 30 посещений"), /16 500/);
-  assert.match(card("Семейный: 120 дней"), /29 900/);
-  assert.match(card("50 посещений на 365 дней"), /Сеанс 100 минут/);
+  assert.match(card("180 дней"), /38 800/);
+  assert.match(card("60 посещений"), /32 900/);
+  assert.match(card("60 посещений"), /15 дней заморозки/);
+  assert.doesNotMatch(html, /Семейный: 30 посещений|Скидки 10%/);
+  assert.match(html, /Скидки 5%/);
+  assert.match(card("Семейный: 120 дней"), /33 000/);
+  assert.match(card("50 посещений на 365 дней"), /Сеанс 90 минут/);
   assert.match(card("50 посещений на 365 дней"), /598 ₽ за посещение/);
   const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
   const offers = schemas.find((schema) => schema["@type"] === "OfferCatalog").itemListElement;
-  assert.deepEqual(offers.map((offer) => offer.price), ["10900", "23900", "35900", "65000", "11900", "16500", "29900", "29900"]);
+  assert.deepEqual(offers.map((offer) => offer.price), ["10900", "23900", "38800", "67900", "13400", "33000", "32900", "29900"]);
   for (const path of ["/", "/ceny", "/uslugi/abonementy", "/uslugi/razovoe-poseshchenie", "/reklama/abonementy", "/reklama/razovoe-poseshchenie"]) {
     const page = await render(path);
     assert.equal(page.status, 200);
     const text = (await page.text()).replace(/<!--.*?-->/g, "");
-    assert.doesNotMatch(text, /21 500|7 167|67 900|5 659|38 800|13 400|31 390|33 000/);
+    assert.doesNotMatch(text, /21 500|7 167|65 000|5 417|35 900|11 900|31 390|16 500/);
     assert.match(text, /[Пп]арковка.*(?:не включена|только в безлимитные)/);
   }
 });
