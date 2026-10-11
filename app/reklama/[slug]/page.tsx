@@ -31,6 +31,9 @@ export default async function AdLandingPage({ params }: { params: Promise<{ slug
   const landing = getAdLanding(slug);
   if (!landing) notFound();
 
+  const bundle = landing.bundle;
+  const money = (value: number) => new Intl.NumberFormat("ru-RU").format(value);
+
   const schema = [
     {
       "@context": "https://schema.org",
@@ -54,7 +57,7 @@ export default async function AdLandingPage({ params }: { params: Promise<{ slug
   ];
 
   return (
-    <div className="pool-landing">
+    <div className={`pool-landing${bundle ? " pool-bundle" : ""}`}>
       <JsonLd data={schema} />
       <header className="pool-header">
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
@@ -68,15 +71,25 @@ export default async function AdLandingPage({ params }: { params: Promise<{ slug
           <div className="pool-hero-copy">
             <span>{landing.eyebrow}</span>
             {landing.promotion && <p className="pool-promotion-deadline">{landing.promotion.deadlineLabel}</p>}
-            <h1>{landing.title}</h1>
-            <p>{landing.description}</p>
-            <strong>{landing.price}</strong>
+            {bundle ? <>
+              <h1>Бассейн + баня <span className="pool-bundle-price">за {bundle.visitPrice} ₽</span><small>за посещение в абонементе</small></h1>
+              <p>{landing.description}</p>
+              <div className="pool-bundle-terms">
+                <strong>{bundle.visits} посещений · {bundle.days} дней</strong>
+                <span>Полная стоимость абонемента <b>{money(bundle.totalPrice)} ₽</b></span>
+                <span>Сеанс {bundle.minutes} минут. {bundle.visitPrice} ₽ за визит при использовании всех {bundle.visits} посещений.</span>
+              </div>
+            </> : <>
+              <h1>{landing.title}</h1>
+              <p>{landing.description}</p>
+              <strong>{landing.price}</strong>
+            </>}
             <a className="button button-lime pool-mobile-cta" href="#pool-lead-form">{landing.cta}</a>
-            {landing.offerTerms && <p className="pool-offer-terms">{landing.offerTerms}</p>}
+            {!bundle && landing.offerTerms && <p className="pool-offer-terms">{landing.offerTerms}</p>}
             <div className="pool-hero-facts">{landing.proof.map((item) => <b key={item}>{item}</b>)}</div>
           </div>
           <div className="pool-hero-form" id="pool-lead-form">
-            <div><span>Ответим в рабочее время</span><h2>{landing.cta}</h2><p>{landing.formDescription ?? "Оставьте имя и телефон. Администратор уточнит цену, время и условия первого визита."}</p></div>
+            <div><span>Ответим в рабочее время</span><h2>{bundle ? "Ваш абонемент с баней" : landing.cta}</h2><p>{landing.formDescription ?? "Оставьте имя и телефон. Администратор уточнит цену, время и условия первого визита."}</p></div>
             <LeadForm
               formName={landing.formName}
               defaultGoal={landing.goal}
@@ -91,10 +104,16 @@ export default async function AdLandingPage({ params }: { params: Promise<{ slug
         <section className="pool-benefits">
           {landing.benefits.map((benefit, index) => <article key={benefit.title}><span>0{index + 1}</span><h2>{benefit.title}</h2><p>{benefit.text}</p></article>)}
         </section>
+        {bundle && <section className="pool-bundle-breakdown" aria-labelledby="bundle-breakdown-title">
+          <div><span className="section-kicker">Как получается {bundle.visitPrice} ₽</span><h2 id="bundle-breakdown-title">Один абонемент. Три месяца бассейна и бани.</h2><p>Вы оплачиваете абонемент целиком и используете посещения в течение {bundle.days} дней.</p></div>
+          <div className="pool-bundle-calculation">
+            {bundle.singleVisitPrice && <div className="pool-bundle-comparison"><div><span>Бассейн + баня разово</span><b>{money(bundle.singleVisitPrice)} ₽</b></div><div><span>Посещение по абонементу</span><b>{bundle.visitPrice} ₽</b></div><p>На {money(bundle.singleVisitPrice - bundle.visitPrice)} ₽ меньше за каждый визит при полном использовании абонемента.</p></div>}
+            <strong>{money(bundle.totalPrice)} ₽ <span>÷ {bundle.visits} =</span> {bundle.visitPrice} ₽</strong><p>за посещение при использовании всего абонемента</p><a className="button button-lime" href="#pool-lead-form">{landing.cta}</a></div>
+        </section>}
         <p className="tariff-disclaimer">{landing.amenityNote ?? `Состав услуг зависит от выбранного тарифа. ${parkingTerms}`} <a href="/ceny">Сравнить тарифы</a></p>
 
         <section className="pool-proof-section">
-          <div><span className="section-kicker">Наутилус в Хабаровске</span><h2>Большая вода, свежий воздух и понятный первый шаг</h2><p>Бассейн работает круглый год. Перед визитом администратор подтвердит актуальный слот и ответит на вопросы по подготовке.</p><ul><li>Будни 06:00-22:00</li><li>Выходные 07:00-22:00</li><li>Восемь дорожек по 50 метров</li><li>Сауна и парковка: условия зависят от тарифа</li></ul><a className="text-link" href={landing.serviceHref}>Подробнее об услуге <span>→</span></a></div>
+          <div><span className="section-kicker">Наутилус в Хабаровске</span><h2>{bundle ? "Ваш бассейн под открытым небом" : "Большая вода, свежий воздух и понятный первый шаг"}</h2><p>{bundle ? "Советская, 1 к4. Плавайте утром, днём или после работы. Бассейн открыт круглый год, температура воды около +28 °C." : "Бассейн работает круглый год. Перед визитом администратор подтвердит актуальный слот и ответит на вопросы по подготовке."}</p><ul><li>Будни 06:00-22:00</li><li>Выходные 07:00-22:00</li><li>Восемь дорожек по 50 метров</li><li>{bundle ? "Баня в подарок к абонементу" : "Сауна и парковка: условия зависят от тарифа"}</li></ul><a className="text-link" href={landing.serviceHref}>Подробнее об услуге <span>→</span></a></div>
           <div className="pool-map-card"><YandexMap large /><strong>Советская улица, 1 к4</strong></div>
         </section>
 
@@ -104,7 +123,7 @@ export default async function AdLandingPage({ params }: { params: Promise<{ slug
         </section>
 
         <section className="pool-final-cta">
-          <div><span>Первый шаг займёт меньше минуты</span><h2>{landing.cta}</h2><p>Администратор свяжется с вами, уточнит задачу и предложит подходящий вариант.</p></div>
+          <div><span>Первый шаг займёт меньше минуты</span><h2>{landing.cta}</h2><p>{bundle ? `30 посещений с баней за ${money(bundle.totalPrice)} ₽. Оставьте заявку, чтобы оформить абонемент у администратора.` : "Администратор свяжется с вами, уточнит задачу и предложит подходящий вариант."}</p></div>
           <a className="button button-lime" href="#booking" data-booking data-goal={landing.goal} data-form-name={landing.formName} data-submit-label={landing.cta}>{landing.cta}</a>
           <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
         </section>
