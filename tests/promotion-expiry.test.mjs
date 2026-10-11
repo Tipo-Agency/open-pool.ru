@@ -16,6 +16,7 @@ test("promotion closes at the Khabarovsk deadline and keeps a useful enquiry for
   const ended = exports.getAdLanding("30-poseshcheniy", new Date("2026-10-09T14:00:00Z"));
   assert.match(ended.title, /Акция завершилась/);
   assert.equal(ended.promotion, undefined);
+  assert.equal(ended.bundle, undefined);
   assert.doesNotMatch(ended.price, /499/);
   assert.equal(ended.cta, "Узнать актуальные предложения");
   assert.match(ended.goal, /после акции/);

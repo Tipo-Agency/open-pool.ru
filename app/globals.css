@@ -29,7 +29,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--cream);
-  font-family: var(--font-manrope), sans-serif;
+  font-family: var(--font-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1058,3 +1058,44 @@ footer a.tipa-credit { width: fit-content; min-height: 42px; display: inline-fle
 footer a.tipa-credit img { display: block; width: 64px; height: 42px; max-width: none; object-fit: contain; filter: none; margin: 0; }
 footer a.tipa-credit:hover { opacity: 1; }
 footer a.tipa-credit:active { opacity: .6; }
+
+/* The bundle offer leads with the experience and per-visit price, with total payment alongside. */
+.pool-bundle .pool-hero { align-items: start; }
+.pool-bundle .pool-hero-copy h1 { margin: 20px 0; font-size: clamp(34px, 3.8vw, 56px); }
+.pool-bundle-price { display: block; margin-top: 10px; color: var(--lime); font-size: clamp(64px, 7vw, 104px); white-space: nowrap; }
+.pool-bundle .pool-hero-copy h1 small { display: block; margin-top: 14px; font-family: var(--font-sans), sans-serif; font-size: 18px; font-weight: 500; letter-spacing: 0; }
+.pool-bundle .pool-hero-copy > p { font-size: 17px; line-height: 1.5; }
+.pool-bundle-terms { display: grid; gap: 8px; padding: 18px 0; border-top: 1px solid #ffffff40; }
+.pool-bundle-terms > strong { font-size: 20px; }
+.pool-bundle-terms > span { font-size: 15px; line-height: 1.5; color: #ffffffe6; }
+.pool-bundle-terms > span:last-child { max-width: 420px; font-size: 13px; }
+.pool-bundle .pool-hero-facts { margin-top: 18px; }
+.pool-bundle .pool-hero-form { align-self: center; }
+.pool-bundle-breakdown { width: min(1320px, calc(100% - 48px)); margin: 20px auto 32px; padding: clamp(24px, 4vw, 48px); display: grid; grid-template-columns: 1fr 1fr; gap: 36px; border-radius: 26px; background: #e4eef6; }
+.pool-bundle-breakdown h2 { margin: 14px 0; font-size: clamp(26px, 3vw, 40px); line-height: 1.15; }
+.pool-bundle-breakdown p { color: var(--ink-soft); line-height: 1.6; }
+.pool-bundle-calculation { align-self: center; }
+.pool-bundle-calculation > strong { display: block; font-size: clamp(26px, 2.5vw, 36px); letter-spacing: -.03em; }
+.pool-bundle-calculation > strong span { font-weight: 400; }
+@media (max-width: 980px) {
+  .pool-bundle .pool-hero-copy { padding-top: 0; }
+  .pool-bundle .pool-mobile-cta { margin-top: 6px; }
+}
+@media (max-width: 720px) {
+  .pool-bundle .pool-hero { padding-top: 24px; gap: 28px; }
+  .pool-bundle .pool-hero-copy h1 { font-size: 34px; margin: 16px 0; }
+  .pool-bundle-price { font-size: clamp(60px, 16vw, 82px); }
+  .pool-bundle .pool-hero-copy h1 small { font-size: 15px; }
+  .pool-bundle .pool-hero-copy > p { font-size: 15px; }
+  .pool-bundle .pool-mobile-cta { width: 100%; }
+  .pool-bundle .pool-hero-facts { gap: 6px; }
+  .pool-bundle .pool-hero-facts b { padding: 8px 10px; }
+  .pool-bundle-breakdown { width: calc(100% - 32px); grid-template-columns: 1fr; gap: 12px; }
+}
+
+.pool-bundle-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.pool-bundle-comparison span { display: block; margin-bottom: 10px; color: var(--ink-soft); font-size: 13px; }
+.pool-bundle-comparison b { font-size: 32px; }
+.pool-bundle-comparison > div:nth-child(2) b { color: var(--blue-strong); }
+.pool-bundle-comparison > p { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+.pool-bundle .pool-hero-form > div > span { color: var(--blue-strong); }

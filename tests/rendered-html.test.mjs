@@ -182,10 +182,12 @@ test("renders the new promotion with full price and a distinct lead form", async
   const response = await render("/reklama/30-poseshcheniy");
   assert.equal(response.status, 200);
   const html = (await response.text()).replace(/<!--.*?-->/g, "");
-  assert.match(html, /30 посещений бассейна\. Баня в подарок/);
-  assert.match(html, /Полная оплата абонемента: 14 970 ₽/);
-  assert.match(html, /499 ₽ за посещение в абонементе/);
-  assert.match(html, /Срок действия 90 дней, сеанс 70 минут/);
+  assert.match(html, /Бассейн \+ баня/);
+  assert.match(html, /class="pool-bundle-price">за 499 ₽/);
+  assert.match(html.replace(/\u00a0/g, " "), /Полная стоимость абонемента <b>14 970 ₽<\/b>/);
+  assert.match(html, /<small>за посещение в абонементе<\/small>/);
+  assert.match(html, /Сеанс 70 минут/);
+  assert.match(html, /30 посещений · 90 дней/);
   assert.match(html, /Реклама: акция 30 посещений \+ баня/);
   assert.match(html, /Парковка не включена/);
   assert.match(html, /name="robots" content="noindex, follow/);
