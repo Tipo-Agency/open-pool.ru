@@ -177,13 +177,13 @@ test("renders current pool tariffs and the 20 visit paid-search offer", async ()
   assert.doesNotMatch(landingHtml, /Зафиксировать тариф|21 500/);
 });
 
-test("renders the new promotion with full price and a distinct lead form", async (t) => {
-  t.mock.timers.enable({ apis: ["Date"], now: new Date("2026-10-08T12:00:00Z") });
+test("renders the new promotion with full price and a distinct lead form", async () => {
   const response = await render("/reklama/30-poseshcheniy");
   assert.equal(response.status, 200);
   const html = (await response.text()).replace(/<!--.*?-->/g, "");
   assert.match(html, /Бассейн \+ баня/);
   assert.match(html, /class="pool-bundle-price">за 499 ₽/);
+  assert.doesNotMatch(html, /Акция завершилась|9 октября|срок акции уточняется/);
   assert.match(html.replace(/\u00a0/g, " "), /Полная стоимость абонемента <b>14 970 ₽<\/b>/);
   assert.match(html, /<small>за посещение в абонементе<\/small>/);
   assert.match(html, /Сеанс 70 минут/);

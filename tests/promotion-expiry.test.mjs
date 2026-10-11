@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import ts from "typescript";
 
-test("promotion closes at the Khabarovsk deadline and keeps a useful enquiry form", async () => {
+test("confirmed offer stays active and a separately dated promotion expires safely", async () => {
   const source = await readFile(new URL("../app/reklama/data.ts", import.meta.url), "utf8");
   const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } });
   const exports = {};
@@ -11,9 +11,17 @@ test("promotion closes at the Khabarovsk deadline and keeps a useful enquiry for
     visitTariffs: [{ price: "11 900", summary: "595 ₽ за посещение" }], featuredTariff: { price: "23 900" },
   };
   new Function("require", "exports", compiled.outputText)(dependency, exports);
-  const active = exports.getAdLanding("30-poseshcheniy", new Date("2026-10-09T13:59:59Z"));
+  const current = exports.getAdLanding("30-poseshcheniy", new Date("2026-10-11T12:00:00Z"));
+  assert.equal(current.bundle.totalPrice, 14970);
+  assert.equal(current.bundle.visitPrice, 499);
+  assert.equal(current.promotion, undefined);
+  assert.equal(exports.getAdLanding("30-poseshcheniy", new Date("2026-10-20")).bundle.visits, 30);
+  exports.adLandings.push({ ...current, slug: "dated-promotion-test", promotion: {
+    expiresAt: "2026-10-09T23:59:59+10:00", deadlineLabel: "Тест срока",
+  } });
+  const active = exports.getAdLanding("dated-promotion-test", new Date("2026-10-09T13:59:59Z"));
   assert.equal(active.price, "499 ₽ за посещение в абонементе");
-  const ended = exports.getAdLanding("30-poseshcheniy", new Date("2026-10-09T14:00:00Z"));
+  const ended = exports.getAdLanding("dated-promotion-test", new Date("2026-10-09T14:00:00Z"));
   assert.match(ended.title, /Акция завершилась/);
   assert.equal(ended.promotion, undefined);
   assert.equal(ended.bundle, undefined);
