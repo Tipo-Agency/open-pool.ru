@@ -1,4 +1,6 @@
-import photos from "./pool-photos.json";
+import poolPhotos from "./pool-photos.json";
+import articlePhotos from "./article-photos.json";
+const photos = { ...poolPhotos, ...articlePhotos };
 
 // Shared responsive delivery for the pool's existing photographs.
 export function poolImageProps(src: string, priority = false, sizes = "(max-width: 760px) 100vw, 50vw") {

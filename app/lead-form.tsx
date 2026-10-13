@@ -1,8 +1,12 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import { sendLead } from "./lead-client";
 import { trackSiteEvent } from "./analytics-client";
+import "./lead-form.css";
+
+type FormField = "name" | "phone" | "consent";
+type FieldErrors = Partial<Record<FormField, string>>;
 
 type LeadFormProps = {
   formName?: string;
@@ -22,7 +26,10 @@ export function LeadForm({
   compact = false,
 }: LeadFormProps = {}) {
   const [status, setStatus] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [sending, setSending] = useState(false);
+  const formId = useId();
+  const statusRef = useRef<HTMLParagraphElement>(null);
   const startedAt = useRef(0);
   const startedTracking = useRef(false);
 
@@ -37,12 +44,18 @@ export function LeadForm({
     const name = String(form.get("name") || "").trim();
     const phone = String(form.get("phone") || "").trim();
     const consent = form.get("consent") === "on";
-    if (name.length < 2 || phone.replace(/\D/g, "").length < 10) {
-      setStatus("Укажите имя и телефон минимум из 10 цифр.");
-      return;
-    }
-    if (!consent) {
-      setStatus("Подтвердите согласие на обработку данных.");
+    const errors: FieldErrors = {};
+    if (name.length < 2) errors.name = "Укажите имя: минимум 2 символа.";
+    if (phone.replace(/\D/g, "").length < 10) errors.phone = "Укажите телефон: минимум 10 цифр.";
+    if (!consent) errors.consent = "Подтвердите согласие на обработку данных.";
+    setFieldErrors(errors);
+    const firstInvalid = (["name", "phone", "consent"] as const).find((field) => errors[field]);
+    if (firstInvalid) {
+      setStatus("Проверьте отмеченные поля.");
+      requestAnimationFrame(() => {
+        const input = formElement.elements.namedItem(firstInvalid);
+        if (input instanceof HTMLInputElement) input.focus();
+      });
       return;
     }
     const goal = String(form.get("goal") || defaultGoal);
@@ -62,6 +75,7 @@ export function LeadForm({
       setStatus("Готово. Заявка отправлена администратору, скоро вам позвоним.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Не удалось отправить заявку. Позвоните нам: +7 4212 46-49-16");
+      requestAnimationFrame(() => statusRef.current?.focus());
     } finally {
       setSending(false);
     }
@@ -80,12 +94,14 @@ export function LeadForm({
     >
       <label>
         <span>Ваше имя</span>
-        <input name="name" autoComplete="name" placeholder="Александр" required />
+        <input name="name" autoComplete="name" placeholder="Александр" required aria-invalid={Boolean(fieldErrors.name)} aria-describedby={fieldErrors.name ? `${formId}-name-error` : undefined} />
       </label>
+      {fieldErrors.name && <p className="field-error" id={`${formId}-name-error`}>{fieldErrors.name}</p>}
       <label>
         <span>Телефон</span>
-        <input name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="+7 999 000-00-00" required />
+        <input name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="+7 999 000-00-00" required aria-invalid={Boolean(fieldErrors.phone)} aria-describedby={fieldErrors.phone ? `${formId}-phone-error` : undefined} />
       </label>
+      {fieldErrors.phone && <p className="field-error" id={`${formId}-phone-error`}>{fieldErrors.phone}</p>}
       {hideGoal ? <input type="hidden" name="goal" value={defaultGoal} /> : (
         <label>
           <span>Что вас интересует</span>
@@ -99,16 +115,17 @@ export function LeadForm({
         </label>
       )}
       <label className="form-consent">
-        <input name="consent" type="checkbox" required />
+        <input name="consent" type="checkbox" required aria-invalid={Boolean(fieldErrors.consent)} aria-describedby={fieldErrors.consent ? `${formId}-consent-error` : undefined} />
         <span>Согласен на обработку данных по <a href="/politika-konfidencialnosti">политике конфиденциальности</a></span>
       </label>
+      {fieldErrors.consent && <p className="field-error" id={`${formId}-consent-error`}>{fieldErrors.consent}</p>}
       <label className="form-honeypot" aria-hidden="true">
         <span>Компания</span>
         <input name="company" tabIndex={-1} autoComplete="off" />
       </label>
       <button className="button button-lime" type="submit" disabled={sending}>{sending ? "Отправляем..." : submitLabel}</button>
       <p className="form-note">{note}</p>
-      <p className="form-status" aria-live="polite" data-state={status.startsWith("Готово") ? "success" : "message"}>{status}</p>
+      <p className="form-status" ref={statusRef} tabIndex={-1} aria-live="polite" data-state={status.startsWith("Готово") ? "success" : "message"}>{status}</p>
     </form>
   );
 }

@@ -1,3 +1,4 @@
+import { visitGuides } from "./article-navigation";
 import { poolImageProps } from "./pool-image";
 /* eslint-disable @next/next/no-html-link-for-pages */
 import type { Metadata } from "next";
@@ -198,7 +199,7 @@ export default function Home() {
             <div><span className="section-kicker">Журнал о плавании</span><h2>Разбираем по делу</h2></div>
             <p>Техника, здоровье, экипировка и первые тренировки. Материалы отвечают на вопросы, которые обычно задают тренеру и администратору.</p>
           </div>
-          <ArticleCards limit={6} />
+          <ArticleCards slugs={visitGuides} limit={6} />
           <a className="outline-button" href="/blog">Все статьи</a>
         </section>
 

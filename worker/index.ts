@@ -29,7 +29,7 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
-    const legacyPaths: Record<string, string> = { "/contacts": "/kontakty", "/schedule": "/raspisanie", "/services": "/uslugi" };
+    const legacyPaths: Record<string, string> = { "/contacts": "/kontakty", "/schedule": "/raspisanie", "/services": "/uslugi", "/sevices": "/uslugi", "/sale": "/ceny", "/publichnaya-oferta/page": "/publichnaya-oferta" };
     const replacement = legacyPaths[url.pathname.replace(/\/$/, "")];
     if (replacement) return Response.redirect(new URL(replacement + url.search, "https://open-pool.ru"), 301);
 

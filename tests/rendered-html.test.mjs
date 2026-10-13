@@ -95,7 +95,7 @@ test("renders conversion modal, app links, map and rehabilitation content", asyn
   assert.match(articleHtml, /Бассейн после перелома ноги/);
   assert.match(articleHtml, /rehabilitation-pool\.jpg/);
   assert.match(blogHtml, /66(?:<!-- -->)? материалов/);
-  const articleImages = [...blogHtml.matchAll(/<img src="([^"]*\/articles\/[^"]+\.jpg)"/g)].map((match) => match[1]);
+  const articleImages = [...blogHtml.matchAll(/<img src="([^"]*\/photos\/article-[^"]+\.webp)"/g)].map((match) => match[1]);
   assert.equal(articleImages.length, 40);
   assert.equal(new Set(articleImages).size, 40);
 });

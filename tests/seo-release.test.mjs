@@ -32,7 +32,7 @@ test("sitemap includes all 66 articles and preserves historical publication date
   assert.match(page,/dateModified":"2026-09-23/);
 });
 test("legacy URLs redirect to exact equivalents while unknown URLs stay 404", async () => {
-  for (const [old,next] of [['/contacts','/kontakty'],['/schedule','/raspisanie'],['/services','/uslugi']]) {
+  for (const [old,next] of [['/contacts','/kontakty'],['/schedule','/raspisanie'],['/services','/uslugi'],['/sevices','/uslugi'],['/sale','/ceny'],['/publichnaya-oferta/page','/publichnaya-oferta']]) {
     const res=await render(old+'?utm_source=test');
     assert.equal(res.status,301);assert.equal(res.headers.get('location'),'https://open-pool.ru'+next+'?utm_source=test');
   }

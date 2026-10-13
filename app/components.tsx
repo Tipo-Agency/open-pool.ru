@@ -2,6 +2,8 @@
 import { articles, getArticleImage, services, site } from "./data";
 import { BrandLogo } from "./brand-logo";
 import { SITE_URL } from "./seo";
+import { poolImageProps } from "./pool-image";
+import { relatedArticleSlugs } from "./article-navigation";
 
 export function Header() {
   return (
@@ -67,7 +69,7 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} Открытый бассейн «Наутилус»</span><a className="tipa-credit" href="https://tipa.uz/ru" target="_blank" rel="nofollow noopener noreferrer" aria-label="Сайт разработан агентством TIPA"><span>Сделано</span><img src="/media/tipa-agency-animated.svg" alt="TIPA" width={64} height={42} /></a>
+        <span>© {new Date().getFullYear()} Открытый бассейн «Наутилус»</span><a className="tipa-credit" href="https://tipa.uz/ru" target="_blank" rel="nofollow noopener noreferrer" aria-label="Сделано агентством TIPA"><span>Сделано</span><img src="/media/tipa-agency-animated.svg" alt="TIPA" width={64} height={42} /></a>
         <div className="footer-legal-links">
           <a href="/politika-konfidencialnosti">Политика конфиденциальности</a>
           <a href="/publichnaya-oferta">Публичная оферта</a>
@@ -122,18 +124,20 @@ export function PageCta({ title = "Подберём удобный формат 
   );
 }
 
-export function ArticleCards({ limit, exclude }: { limit?: number; exclude?: string }) {
+export function ArticleCards({ limit, exclude, slugs, category }: { limit?: number; exclude?: string; slugs?: string[]; category?: string }) {
   const current = exclude ? articles.find((item) => item.slug === exclude) : undefined;
+  const preferred = slugs ?? (exclude ? relatedArticleSlugs(exclude) : []);
+  const rank = (slug: string) => preferred.includes(slug) ? preferred.indexOf(slug) : preferred.length;
   const list = articles
-    .filter((item) => item.slug !== exclude)
-    .sort((a, b) => current ? Number(b.category === current.category) - Number(a.category === current.category) : 0)
+    .filter((item) => item.slug !== exclude && (!category || item.category === category) && (!slugs || slugs.includes(item.slug)))
+    .sort((a, b) => rank(a.slug) - rank(b.slug) || (current ? Number(b.category === current.category) - Number(a.category === current.category) : 0))
     .slice(0, limit ?? articles.length);
   return (
     <div className="article-grid">
       {list.map((item) => (
         <article className="article-card" key={item.slug}>
           <div className="article-visual">
-            <img src={getArticleImage(item)} alt={`Иллюстрация к статье «${item.title}»`} loading="lazy" />
+            <img {...poolImageProps(getArticleImage(item), false, "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw")} alt={`Иллюстрация к статье «${item.title}»`} />
             <span>{item.category}</span>
           </div>
           <div className="article-card-body">
