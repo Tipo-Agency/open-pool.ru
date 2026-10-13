@@ -485,7 +485,7 @@ tbody th { width: 180px; }
 /* Blog and article */
 .blog-hero { max-width: none; }
 .category-pills { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 9px; }
-.category-pills span { padding: 9px 13px; border-radius: 999px; background: white; font-size: 10px; font-weight: 750; }
+.category-pills a { padding: 9px 13px; border-radius: 999px; background: white; font-size: 10px; font-weight: 750; }
 .inner-page > .article-grid { padding-bottom: 100px; }
 .article-page { max-width: 1320px; }
 .article-header { max-width: 1050px; padding: 75px 0 50px; }
@@ -1099,3 +1099,16 @@ footer a.tipa-credit:active { opacity: .6; }
 .pool-bundle-comparison > div:nth-child(2) b { color: var(--blue-strong); }
 .pool-bundle-comparison > p { grid-column: 1 / -1; margin: 0; font-size: 14px; }
 .pool-bundle .pool-hero-form > div > span { color: var(--blue-strong); }
+
+/* Readable labels on blue sections and keyboard-accessible journal navigation. */
+.featured-price > p, .featured-price ul, .manifesto-stat span,
+.lead-copy > p, .lead-contact span, .lead-options p,
+.lead-options > span, .page-cta p, .page-cta .section-kicker,
+.contact-band .section-kicker, .light-kicker { color: #fff; }
+.footer-bottom { color: rgba(255,255,255,.75); }
+footer a.tipa-credit, footer a.tipa-credit:active { opacity: 1; }
+.category-pills a { text-decoration: none; font-size: 13px; }
+.category-pills a:hover { background: var(--lime); }
+.category-pills a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.blog-topic { padding-bottom: 64px; scroll-margin-top: 110px; }
+.blog-topic > h2 { margin-bottom: 28px; }

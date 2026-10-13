@@ -1,0 +1,402 @@
+{
+  "/articles/akvaaerobika-dlya-nachinayushchih.jpg": {
+    "name": "article-akvaaerobika-dlya-nachinayushchih",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/akvaaerobika-dlya-pozhilyh.jpg": {
+    "name": "article-akvaaerobika-dlya-pozhilyh",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/basseyn-dlya-rebenka-chasto-boleet.jpg": {
+    "name": "article-basseyn-dlya-rebenka-chasto-boleet",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/basseyn-posle-dolgogo-pereryva.jpg": {
+    "name": "article-basseyn-posle-dolgogo-pereryva",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/basseyn-posle-operacii-na-kolene.jpg": {
+    "name": "article-basseyn-posle-operacii-na-kolene",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/basseyn-pri-beremennosti.jpg": {
+    "name": "article-basseyn-pri-beremennosti",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/basseyn-pri-sidyachey-rabote.jpg": {
+    "name": "article-basseyn-pri-sidyachey-rabote",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/chto-vzyat-v-basseyn.jpg": {
+    "name": "article-chto-vzyat-v-basseyn",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-nachat-plavat-vzroslomu.jpg": {
+    "name": "article-kak-nachat-plavat-vzroslomu",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-nauchit-rebenka-plavat.jpg": {
+    "name": "article-kak-nauchit-rebenka-plavat",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-ne-boyatsya-glubiny.jpg": {
+    "name": "article-kak-ne-boyatsya-glubiny",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-plavat-bystree.jpg": {
+    "name": "article-kak-plavat-bystree",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-pravilno-dyshat-pri-plavanii.jpg": {
+    "name": "article-kak-pravilno-dyshat-pri-plavanii",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-schitat-distanciyu-v-basseyne.jpg": {
+    "name": "article-kak-schitat-distanciyu-v-basseyne",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-uhazhivat-za-kozhey-posle-basseyna.jpg": {
+    "name": "article-kak-uhazhivat-za-kozhey-posle-basseyna",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-vybrat-abonement-v-basseyn.jpg": {
+    "name": "article-kak-vybrat-abonement-v-basseyn",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-vybrat-gruppu-plavaniya-rebenku.jpg": {
+    "name": "article-kak-vybrat-gruppu-plavaniya-rebenku",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-vybrat-ochki-dlya-plavaniya.jpg": {
+    "name": "article-kak-vybrat-ochki-dlya-plavaniya",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kak-vybrat-trenera-po-plavaniyu.jpg": {
+    "name": "article-kak-vybrat-trenera-po-plavaniyu",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/kids-swimming.jpg": {
+    "name": "article-kids-swimming",
+    "width": 1672,
+    "height": 941,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/pitaniya-do-i-posle-basseyna.jpg": {
+    "name": "article-pitaniya-do-i-posle-basseyna",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/plavanie-dlya-podrostkov.jpg": {
+    "name": "article-plavanie-dlya-podrostkov",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/plavanie-dlya-serdca-posle-50.jpg": {
+    "name": "article-plavanie-dlya-serdca-posle-50",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/plavanie-dlya-spiny.jpg": {
+    "name": "article-plavanie-dlya-spiny",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/plavanie-i-banya.jpg": {
+    "name": "article-plavanie-i-banya",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/plavanie-posle-50.jpg": {
+    "name": "article-plavanie-posle-50",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/plavanie-pri-boli-v-sustavah.jpg": {
+    "name": "article-plavanie-pri-boli-v-sustavah",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/plavanie-pri-stresse-i-bessonnice.jpg": {
+    "name": "article-plavanie-pri-stresse-i-bessonnice",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/plavanie-v-otkrytom-basseyne-zimoy.jpg": {
+    "name": "article-plavanie-v-otkrytom-basseyne-zimoy",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/pochemu-posle-basseyna-hochetsya-spat.jpg": {
+    "name": "article-pochemu-posle-basseyna-hochetsya-spat",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/polza-plavaniya-dlya-zdorovya.jpg": {
+    "name": "article-polza-plavaniya-dlya-zdorovya",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/pravila-povedeniya-v-basseyne.jpg": {
+    "name": "article-pravila-povedeniya-v-basseyne",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/programma-trenirovki-v-basseyne-dlya-nachinayushchih.jpg": {
+    "name": "article-programma-trenirovki-v-basseyne-dlya-nachinayushchih",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/razminka-pered-plavaniem.jpg": {
+    "name": "article-razminka-pered-plavaniem",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/rehabilitation-pool.jpg": {
+    "name": "article-rehabilitation-pool",
+    "width": 1672,
+    "height": 941,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/senior-swimming.jpg": {
+    "name": "article-senior-swimming",
+    "width": 1672,
+    "height": 941,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/skolko-kaloriy-szhigaet-plavanie.jpg": {
+    "name": "article-skolko-kaloriy-szhigaet-plavanie",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/stili-plavaniya.jpg": {
+    "name": "article-stili-plavaniya",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/utrennee-ili-vechernee-plavanie.jpg": {
+    "name": "article-utrennee-ili-vechernee-plavanie",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  },
+  "/articles/vosstanovlenie-posle-plavaniya.jpg": {
+    "name": "article-vosstanovlenie-posle-plavaniya",
+    "width": 1536,
+    "height": 1024,
+    "widths": [
+      480,
+      800,
+      1200
+    ]
+  }
+}

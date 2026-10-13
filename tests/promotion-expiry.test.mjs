@@ -7,7 +7,10 @@ test("confirmed offer stays active and a separately dated promotion expires safe
   const source = await readFile(new URL("../app/reklama/data.ts", import.meta.url), "utf8");
   const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } });
   const exports = {};
-  const dependency = (path) => path === "../data" ? { images: {} } : {
+  const offerSource = await readFile(new URL("../app/pool-offer.ts", import.meta.url), "utf8");
+  const offerExports = {};
+  new Function("exports", ts.transpileModule(offerSource, { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText)(offerExports);
+  const dependency = (path) => path === "../pool-offer" ? offerExports : path === "../data" ? { images: {} } : {
     visitTariffs: [{ price: "11 900", summary: "595 ₽ за посещение" }], featuredTariff: { price: "23 900" },
   };
   new Function("require", "exports", compiled.outputText)(dependency, exports);

@@ -1,0 +1,24 @@
+.lead-form .field-error {
+  display: block;
+  margin: 7px 0 0;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.lead-form > .field-error {
+  margin: -7px 0 16px;
+}
+
+.lead-form input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+@media (max-width: 720px) {
+  .lead-form input[name="name"],
+  .lead-form input[name="phone"],
+  .lead-form select[name="goal"] {
+    font-size: 16px;
+  }
+}
