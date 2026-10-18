@@ -1,6 +1,6 @@
 "use client";
 
-import { YANDEX_METRIKA_ID } from "./tracking";
+import { YANDEX_METRIKA_IDS } from "./tracking";
 
 declare global {
   interface Window {
@@ -13,9 +13,11 @@ export function trackSiteEvent(event: string, params: Record<string, unknown> = 
   if (typeof window === "undefined") return;
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...params });
-  try {
-    window.ym?.(YANDEX_METRIKA_ID, "reachGoal", event, params);
-  } catch {
-    // Analytics blockers must never interrupt the visitor's action.
+  for (const counterId of YANDEX_METRIKA_IDS) {
+    try {
+      window.ym?.(counterId, "reachGoal", event, params);
+    } catch {
+      // A blocked counter must not interrupt the visitor or another counter.
+    }
   }
 }

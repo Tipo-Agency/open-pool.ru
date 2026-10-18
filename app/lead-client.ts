@@ -1,6 +1,6 @@
 "use client";
 
-import { CALLTOUCH_MOD_ID, YANDEX_METRIKA_ID } from "./tracking";
+import { CALLTOUCH_MOD_ID, YANDEX_METRIKA_IDS } from "./tracking";
 import { trackSiteEvent } from "./analytics-client";
 
 type CalltouchParams = {
@@ -79,10 +79,12 @@ async function getCalltouchParams() {
 function trackResult(event: "lead_submit_success" | "lead_submit_error", formName: string, leadId?: string) {
   trackSiteEvent(event, { form_name: formName, lead_id: leadId });
   if (event === "lead_submit_success") {
-    try {
-      window.ym?.(YANDEX_METRIKA_ID, "reachGoal", "lead_submit", { form_name: formName, lead_id: leadId });
-    } catch {
-      // A blocked analytics script must not affect the form result.
+    for (const counterId of YANDEX_METRIKA_IDS) {
+      try {
+        window.ym?.(counterId, "reachGoal", "lead_submit", { form_name: formName, lead_id: leadId });
+      } catch {
+        // A blocked analytics script must not affect the form result.
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
 const CALLTOUCH_MOD_ID = "yykb6p7o";
-const YANDEX_METRIKA_ID = 112335661;
+const YANDEX_METRIKA_ID = 113666777;
+// Retain the previous counter until active Direct/Calltouch dependencies are migrated.
+const YANDEX_METRIKA_IDS = [YANDEX_METRIKA_ID, 112335661] as const;
 
 const attributionScript = `
 (function () {
@@ -39,7 +41,7 @@ const metrikaScript = `
   for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
   k=e.createElement(t);a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
 })(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
-ym(${YANDEX_METRIKA_ID},'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});`;
+${YANDEX_METRIKA_IDS.map((id) => `ym(${id},'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});`).join("\n")}`;
 
 export function TrackingHeadScripts() {
   return (
@@ -55,9 +57,9 @@ export function TrackingNoScript() {
   return (
     <noscript>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <div><img src={`https://mc.yandex.ru/watch/${YANDEX_METRIKA_ID}`} style={{ position: "absolute", left: "-9999px" }} alt="" /></div>
+      <div>{YANDEX_METRIKA_IDS.map((id) => <img key={id} src={`https://mc.yandex.ru/watch/${id}`} style={{ position: "absolute", left: "-9999px" }} alt="" />)}</div>
     </noscript>
   );
 }
 
-export { CALLTOUCH_MOD_ID, YANDEX_METRIKA_ID };
+export { CALLTOUCH_MOD_ID, YANDEX_METRIKA_ID, YANDEX_METRIKA_IDS };
