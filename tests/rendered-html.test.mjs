@@ -91,7 +91,9 @@ test("renders conversion modal, app links, map and rehabilitation content", asyn
   ]);
   assert.match(homeHtml, /id="booking"/);
   assert.match(homeHtml, /apps\.apple\.com\/ru\/app/);
-  assert.match(homeHtml, /yandex\.ru\/map-widget\/v1/);
+  assert.doesNotMatch(homeHtml, /<iframe[^>]+map-widget/);
+  assert.match(homeHtml, /Показать карту/);
+  assert.match(homeHtml, /Построить маршрут/);
   assert.match(articleHtml, /Бассейн после перелома ноги/);
   assert.match(articleHtml, /rehabilitation-pool\.jpg/);
   assert.match(blogHtml, /66(?:<!-- -->)? материалов/);

@@ -28,7 +28,7 @@ export function LegalDocument({ documentKey }: { documentKey: LegalDocumentKey }
           <span className="section-kicker">Документы клуба</span>
           <h1>{document.title}</h1>
           <p>Полная редакция документа, опубликованная на официальном сайте открытого плавательного бассейна.</p>
-          <a href="https://open-pool.ru/oferta" target="_blank" rel="noreferrer">Открыть исходную публикацию ↗</a>
+          <nav aria-label="Документы клуба"><a href="/publichnaya-oferta">Публичная оферта</a>{" · "}<a href="/pravila-poseshcheniya">Правила посещения</a>{" · "}<a href="/politika-konfidencialnosti">Политика конфиденциальности</a></nav>
         </header>
         <article className="legal-document-copy">
           {lines.map((line, index) => {

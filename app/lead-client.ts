@@ -105,14 +105,17 @@ export async function sendLead(payload: LeadPayload) {
         globalId: calltouch.ctGlobalId,
       },
     }),
+  }).catch(() => {
+    trackResult("lead_submit_error", payload.formName);
+    throw new Error("Связь прервалась. Попробуйте отправить ещё раз или позвоните: +7 4212 46-49-16");
   });
 
-  const result = await response.json().catch(() => ({})) as { ok?: boolean; leadId?: string; message?: string };
+  const result = await response.json().catch(() => ({})) as { ok?: boolean; leadId?: string; message?: string; duplicate?: boolean };
   if (!response.ok || !result.ok) {
     trackResult("lead_submit_error", payload.formName);
     throw new Error(result.message || "Не удалось отправить заявку");
   }
 
-  trackResult("lead_submit_success", payload.formName, result.leadId);
+  if (!result.duplicate) trackResult("lead_submit_success", payload.formName, result.leadId);
   return result;
 }

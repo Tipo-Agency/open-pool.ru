@@ -16,7 +16,13 @@ type LeadRequest = {
   submissionId?: unknown;
 };
 
-type DedupeEntry = { leadId: string; createdAt: number };
+type DedupeEntry = {
+  leadId: string;
+  createdAt: number;
+  fingerprint: string;
+  delivered: boolean;
+  inFlight?: Promise<Response>;
+};
 const DEDUPE_TTL_MS = 24 * 60 * 60 * 1000;
 const recentSubmissions = new Map<string, DedupeEntry>();
 
@@ -52,6 +58,16 @@ function lines(record: Record<string, unknown>, labels: Record<string, string>) 
       return value ? `${label}: ${value}` : "";
     })
     .filter(Boolean);
+}
+
+// Object key order does not change the identity of a JSON form submission.
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.entries(value).sort(([a], [b]) => a.localeCompare(b))
+      .map(([key, item]) => `${JSON.stringify(key)}:${stableJson(item)}`).join(",")}}`;
+  }
+  return JSON.stringify(value) ?? "null";
 }
 
 export async function POST(request: Request) {
@@ -97,17 +113,26 @@ export async function POST(request: Request) {
   const calltouch = object(input.calltouch);
   const details = object(input.details);
   const submissionId = cleanSubmissionId(input.submissionId) || cleanSubmissionId(request.headers.get("x-idempotency-key"));
+  const fingerprint = stableJson({ name, phone, formName, goal, details });
   const now = Date.now();
   for (const [key, entry] of recentSubmissions) {
-    if (now - entry.createdAt > DEDUPE_TTL_MS) recentSubmissions.delete(key);
+    if (!entry.inFlight && now - entry.createdAt > DEDUPE_TTL_MS) recentSubmissions.delete(key);
   }
-  if (submissionId) {
-    const previous = recentSubmissions.get(submissionId);
-    if (previous && now - previous.createdAt <= DEDUPE_TTL_MS) {
+  const previous = submissionId ? recentSubmissions.get(submissionId) : undefined;
+  if (previous) {
+    if (previous.fingerprint !== fingerprint) {
+      return Response.json({ ok: false, message: "Данные заявки изменились. Отправьте её заново." }, {
+        status: 409, headers: { "Cache-Control": "no-store" },
+      });
+    }
+    if (previous.delivered) {
       return Response.json({ ok: true, leadId: previous.leadId, duplicate: true }, { headers: { "Cache-Control": "no-store" } });
     }
+    if (previous.inFlight) return (await previous.inFlight).clone();
   }
   const leadId = submissionId ? `pool-${submissionId}` : requestId();
+  const entry: DedupeEntry = previous ?? { leadId, createdAt: now, fingerprint, delivered: false };
+  if (submissionId) recentSubmissions.set(submissionId, entry);
   const sourceClass = classifyAttribution(attribution);
   const comment = [
     goal ? `Интерес: ${goal}` : "",
@@ -150,45 +175,58 @@ export async function POST(request: Request) {
   const sessionId = text(calltouch.sessionId, 100);
   if (sessionId) body.set("sessionId", sessionId);
 
-  try {
-    const siteId = process.env.CALLTOUCH_SITE_ID || CALLTOUCH_SITE_ID;
-    const endpoint = process.env.CALLTOUCH_API_BASE_URL || CALLTOUCH_ENDPOINT;
-    const calltouchResponse = await fetch(`${endpoint}/${encodeURIComponent(siteId)}/register/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=utf-8" },
-      body,
-      signal: AbortSignal.timeout(8_000),
-    });
-    const raw = await calltouchResponse.text();
-    let calltouchResult: Record<string, unknown> = {};
-    try { calltouchResult = JSON.parse(raw); } catch { calltouchResult = {}; }
-    if (!calltouchResponse.ok || !calltouchResult.requestId) {
-      console.error("Calltouch lead delivery failed", { leadId, status: calltouchResponse.status });
+  async function deliverLead() {
+    try {
+      const siteId = process.env.CALLTOUCH_SITE_ID || CALLTOUCH_SITE_ID;
+      const endpoint = process.env.CALLTOUCH_API_BASE_URL || CALLTOUCH_ENDPOINT;
+      const calltouchResponse = await fetch(`${endpoint}/${encodeURIComponent(siteId)}/register/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=utf-8" },
+        body,
+        signal: AbortSignal.timeout(8_000),
+      });
+      const raw = await calltouchResponse.text();
+      let calltouchResult: Record<string, unknown> = {};
+      try { calltouchResult = JSON.parse(raw); } catch { calltouchResult = {}; }
+      if (!calltouchResponse.ok || !calltouchResult.requestId) {
+        console.error("Calltouch lead delivery failed", { leadId, status: calltouchResponse.status });
+        return Response.json({ ok: false, message: "Сервис заявок временно недоступен. Позвоните нам по номеру +7 4212 46-49-16" }, { status: 502 });
+      }
+      entry.delivered = true;
+      entry.createdAt = Date.now();
+
+      const webhookUrl = process.env.LEADS_WEBHOOK_URL;
+      if (webhookUrl) {
+        const webhookHeaders: Record<string, string> = { "Content-Type": "application/json" };
+        if (process.env.LEADS_WEBHOOK_TOKEN) webhookHeaders.Authorization = `Bearer ${process.env.LEADS_WEBHOOK_TOKEN}`;
+        const webhookPayload = { leadId, name, phone, formName, goal, details, attribution, calltouchRequestId: calltouchResult.requestId };
+        try {
+          const webhookResponse = await fetch(webhookUrl, {
+            method: "POST",
+            headers: webhookHeaders,
+            body: JSON.stringify(webhookPayload),
+            signal: AbortSignal.timeout(8_000),
+          });
+          if (!webhookResponse.ok) console.error("Secondary lead webhook failed", { leadId, status: webhookResponse.status });
+        } catch {
+          console.error("Secondary lead webhook failed", { leadId });
+        }
+      }
+
+      return Response.json({ ok: true, leadId }, { headers: { "Cache-Control": "no-store" } });
+    } catch {
+      console.error("Lead delivery failed", { leadId });
       return Response.json({ ok: false, message: "Сервис заявок временно недоступен. Позвоните нам по номеру +7 4212 46-49-16" }, { status: 502 });
     }
-    if (submissionId) recentSubmissions.set(submissionId, { leadId, createdAt: Date.now() });
+  }
 
-    const webhookUrl = process.env.LEADS_WEBHOOK_URL;
-    if (webhookUrl) {
-      const webhookHeaders: Record<string, string> = { "Content-Type": "application/json" };
-      if (process.env.LEADS_WEBHOOK_TOKEN) webhookHeaders.Authorization = `Bearer ${process.env.LEADS_WEBHOOK_TOKEN}`;
-      const webhookPayload = { leadId, name, phone, formName, goal, details, attribution, calltouchRequestId: calltouchResult.requestId };
-      try {
-        const webhookResponse = await fetch(webhookUrl, {
-          method: "POST",
-          headers: webhookHeaders,
-          body: JSON.stringify(webhookPayload),
-          signal: AbortSignal.timeout(8_000),
-        });
-        if (!webhookResponse.ok) console.error("Secondary lead webhook failed", { leadId, status: webhookResponse.status });
-      } catch {
-        console.error("Secondary lead webhook failed", { leadId });
-      }
-    }
-
-    return Response.json({ ok: true, leadId }, { headers: { "Cache-Control": "no-store" } });
-  } catch {
-    console.error("Lead delivery failed", { leadId });
-    return Response.json({ ok: false, message: "Сервис заявок временно недоступен. Позвоните нам по номеру +7 4212 46-49-16" }, { status: 502 });
+  // Reserve the key before yielding, so concurrent requests share one delivery.
+  const delivery = deliverLead();
+  entry.inFlight = delivery;
+  try {
+    // Keep the shared Response body untouched for every waiting request.
+    return (await delivery).clone();
+  } finally {
+    entry.inFlight = undefined;
   }
 }

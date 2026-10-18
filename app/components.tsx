@@ -4,6 +4,7 @@ import { BrandLogo } from "./brand-logo";
 import { SITE_URL } from "./seo";
 import { poolImageProps } from "./pool-image";
 import { relatedArticleSlugs } from "./article-navigation";
+export { YandexMap } from "./yandex-map";
 
 export function Header() {
   return (
@@ -148,20 +149,6 @@ export function ArticleCards({ limit, exclude, slugs, category }: { limit?: numb
           </div>
         </article>
       ))}
-    </div>
-  );
-}
-
-export function YandexMap({ large = false }: { large?: boolean }) {
-  return (
-    <div className={`yandex-map${large ? " contact-map" : ""}`}>
-      <iframe
-        src="https://yandex.ru/map-widget/v1/?ll=135.044464%2C48.480725&z=16&pt=135.044464%2C48.480725%2Cpm2rdm"
-        title="Открытый бассейн Наутилус на Яндекс Картах"
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        allowFullScreen
-      />
     </div>
   );
 }

@@ -1,0 +1,7 @@
+.home-offer-wrap { padding: clamp(24px, 5vw, 72px) clamp(20px, 6vw, 96px); }
+.hero-v2 .hero-offer-terms { max-width: 680px; margin: 16px 0 0; font-size: 13px; line-height: 1.6; color: #fff; }
+.home-page .mobile-sticky-cta a:last-child { font-size: 13px; }
+@media (max-width: 760px) {
+  .hero-v2 .hero-offer-terms { font-size: 12px; }
+  .hero-v2 .hero-price-link span { max-width: 150px; line-height: 1.5; }
+}

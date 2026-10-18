@@ -3,7 +3,7 @@ import { articles, services } from "./data";
 import { SITE_URL } from "./seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pageUpdates: Record<string, string> = { "": "2026-10-13", "/uslugi": "2026-10-13", "/ceny": "2026-10-13", "/raspisanie": "2026-10-05", "/kontakty": "2026-10-07", "/o-basseyne": "2026-10-07" };
+  const pageUpdates: Record<string, string> = { "": "2026-10-18", "/uslugi": "2026-10-18", "/ceny": "2026-10-18", "/raspisanie": "2026-10-05", "/kontakty": "2026-10-07", "/o-basseyne": "2026-10-18" };
   const serviceUpdated = new Date("2026-10-10");
   const staticPages = ["", "/uslugi", "/ceny", "/raspisanie", "/kontakty", "/o-basseyne", "/blog"].map((path) => ({
     url: `${SITE_URL}${path}`,
@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: path === "" ? "weekly" as const : "monthly" as const,
     priority: path === "" ? 1 : path === "/blog" ? 0.8 : 0.85,
   }));
-  const servicePages = services.map((item) => ({ url: `${SITE_URL}/uslugi/${item.slug}`, lastModified: ["abonementy", "svobodnoe-plavanie", "obuchenie-plavaniyu-vzroslyh", "akvaaerobika"].includes(item.slug) ? new Date("2026-10-13") : serviceUpdated, changeFrequency: "monthly" as const, priority: 0.8 }));
+  const servicePages = services.map((item) => ({ url: `${SITE_URL}/uslugi/${item.slug}`, lastModified: ["razovoe-poseshchenie", "svobodnoe-plavanie"].includes(item.slug) ? new Date("2026-10-18") : ["abonementy", "svobodnoe-plavanie", "obuchenie-plavaniyu-vzroslyh", "akvaaerobika"].includes(item.slug) ? new Date("2026-10-13") : serviceUpdated, changeFrequency: "monthly" as const, priority: 0.8 }));
   const articlePages = articles.map((item) => ({ url: `${SITE_URL}/blog/${item.slug}`, lastModified: new Date(item.modified ?? item.date), changeFrequency: "monthly" as const, priority: 0.7 }));
   return [...staticPages, ...servicePages, ...articlePages];
 }

@@ -1101,7 +1101,8 @@ footer a.tipa-credit:active { opacity: .6; }
 .pool-bundle .pool-hero-form > div > span { color: var(--blue-strong); }
 
 /* Readable labels on blue sections and keyboard-accessible journal navigation. */
-.featured-price > p, .featured-price ul, .manifesto-stat span,
+.featured-price > span, .featured-price > p, .featured-price ul, .manifesto-stat span,
+.pool-proof-section .section-kicker, .pool-final-cta > div > span, .pool-final-cta p,
 .lead-copy > p, .lead-contact span, .lead-options p,
 .lead-options > span, .page-cta p, .page-cta .section-kicker,
 .contact-band .section-kicker, .light-kicker { color: #fff; }

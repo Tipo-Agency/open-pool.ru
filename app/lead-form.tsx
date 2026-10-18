@@ -28,6 +28,9 @@ export function LeadForm({
   const [status, setStatus] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [sending, setSending] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const sendingRef = useRef(false);
+  const submission = useRef({ fingerprint: "", id: "" });
   const formId = useId();
   const statusRef = useRef<HTMLParagraphElement>(null);
   const startedAt = useRef(0);
@@ -39,6 +42,7 @@ export function LeadForm({
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (sendingRef.current || completed) return;
     const formElement = event.currentTarget;
     const form = new FormData(formElement);
     const name = String(form.get("name") || "").trim();
@@ -59,10 +63,16 @@ export function LeadForm({
       return;
     }
     const goal = String(form.get("goal") || defaultGoal);
+    const fingerprint = JSON.stringify([name, phone.replace(/\D/g, ""), goal, formName]);
+    if (submission.current.fingerprint !== fingerprint) {
+      submission.current = { fingerprint, id: crypto.randomUUID() };
+    }
+    sendingRef.current = true;
     setSending(true);
     setStatus("Отправляем заявку...");
     try {
-      await sendLead({
+      const result = await sendLead({
+        submissionId: submission.current.id,
         name,
         phone,
         goal,
@@ -70,15 +80,24 @@ export function LeadForm({
         company: String(form.get("company") || ""),
         startedAt: startedAt.current,
       });
-      formElement.reset();
-      startedAt.current = Date.now();
-      setStatus("Готово. Заявка отправлена администратору, скоро вам позвоним.");
+      setCompleted(true);
+      setStatus(`Готово. Администратор получил заявку${result.leadId ? ` № ${result.leadId}` : ""}. Он свяжется с вами по указанному телефону и уточнит условия посещения.`);
+      requestAnimationFrame(() => statusRef.current?.focus());
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Не удалось отправить заявку. Позвоните нам: +7 4212 46-49-16");
       requestAnimationFrame(() => statusRef.current?.focus());
     } finally {
+      sendingRef.current = false;
       setSending(false);
     }
+  }
+
+  if (completed) {
+    return <div className="lead-form lead-receipt">
+      <h3>Заявка принята</h3>
+      <p className="form-status" ref={statusRef} tabIndex={-1} role="status" data-state="success">{status}</p>
+      <p>Если хотите уточнить детали сейчас, позвоните: <a href="tel:+74212464916">+7 4212 46-49-16</a>.</p>
+    </div>;
   }
 
   return (
