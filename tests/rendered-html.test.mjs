@@ -41,7 +41,7 @@ test("renders commercial and article routes with unique SEO metadata", async () 
   assert.equal(articleResponse.status, 200);
   const serviceHtml = await serviceResponse.text();
   const articleHtml = await articleResponse.text();
-  assert.match(serviceHtml, /<title>Абонементы в открытый бассейн в Хабаровске \| Наутилус<\/title>/i);
+  assert.match(serviceHtml, /<title>Абонементы в бассейн Хабаровска: 499 ₽ за визит \| Наутилус<\/title>/i);
   assert.match(serviceHtml, /https:\/\/schema\.org.*Service/);
   assert.match(articleHtml, /Как взрослому начать плавать с нуля в Хабаровске/);
   assert.match(articleHtml, /https:\/\/schema\.org.*Article/);
@@ -96,7 +96,8 @@ test("renders conversion modal, app links, map and rehabilitation content", asyn
   assert.match(homeHtml, /Построить маршрут/);
   assert.match(articleHtml, /Бассейн после перелома ноги/);
   assert.match(articleHtml, /rehabilitation-pool\.jpg/);
-  assert.match(blogHtml, /66(?:<!-- -->)? материалов/);
+  const growth = JSON.parse(await readFile(new URL("../app/local-growth-content.json", import.meta.url), "utf8"));
+  assert.match(blogHtml, new RegExp(`${66 + growth.length}(?:<!-- -->)? материалов`));
   const articleImages = [...blogHtml.matchAll(/<img src="([^"]*\/photos\/article-[^"]+\.webp)"/g)].map((match) => match[1]);
   assert.equal(articleImages.length, 40);
   assert.equal(new Set(articleImages).size, 40);

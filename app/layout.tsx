@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { Manrope, Unbounded } from "next/font/google";
 import "./globals.css";
 import { BookingModal } from "./booking-modal";
@@ -15,6 +16,19 @@ const unbounded = Unbounded({
   variable: "--font-unbounded",
   subsets: ["cyrillic", "latin"],
 });
+
+// The ruble alone otherwise downloads Unbounded's entire Latin Extended file.
+const rubleFontFace = `@font-face {
+  font-family: 'Open Pool Ruble';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('/fonts/open-pool-ruble-wght-v1.woff2') format('woff2');
+  unicode-range: U+20BD;
+}`;
+const fontVariables = {
+  "--font-unbounded": `'Open Pool Ruble', ${unbounded.style.fontFamily}`,
+} as CSSProperties;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -59,8 +73,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
-      <head><TrackingHeadScripts /></head>
-      <body className={`${manrope.variable} ${unbounded.variable}`}>
+      <head><TrackingHeadScripts /><style>{rubleFontFace}</style></head>
+      <body className={`${manrope.variable} ${unbounded.variable}`} style={fontVariables}>
         <TrackingNoScript />
         <TrackingEvents />
         {children}
