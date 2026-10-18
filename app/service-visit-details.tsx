@@ -1,12 +1,11 @@
 import { site } from "./data";
 import { tariffDate, unlimitedTariffs, visitTariffs } from "./pricing-data";
-import { PoolOfferCard } from "./pool-offer-card";
 
 export function ServiceVisitDetails({ slug }: { slug: string }) {
   const membership = slug === "abonementy";
   const children = slug === "plavanie-dlya-detey";
   const lessons = children || slug === "obuchenie-plavaniyu-vzroslyh" || slug === "akvaaerobika";
-  return <>{membership && <PoolOfferCard formName="Абонементы: 30 посещений с баней" />}<section className="tariff-section" aria-labelledby="visit-details-title">
+  return <section className="tariff-section" aria-labelledby="visit-details-title">
     <div className="section-heading"><span className="section-kicker">Перед посещением</span><h2 id="visit-details-title">{membership ? "Сравните карты по вашему графику" : lessons ? "Как выбрать занятие" : "Спланируйте первый визит"}</h2></div>
     {membership && <><p>Тарифы по прайсу от {tariffDate}. Полная стоимость оплачивается за выбранную карту.</p><div className="price-grid">{[visitTariffs[0], unlimitedTariffs[1], unlimitedTariffs[3]].map(tariff => <article className="price-card" key={tariff.name}><span>{tariff.name === "20 посещений" ? "По посещениям" : "Безлимит"}</span><h3>{tariff.name}</h3><div className="price"><strong>{tariff.price}</strong><i>₽</i></div><p>{tariff.summary}</p><ul>{tariff.details.map(detail => <li key={detail}>{detail}</li>)}</ul><a className="outline-button" href="#booking" data-booking data-goal={tariff.name} data-form-name={`Абонементы: ${tariff.name}`}>Уточнить условия карты</a></article>)}</div></>}
     <div className="comparison-note"><h3>{lessons ? "Подходящая группа и время" : "Адрес и часы работы"}</h3><div>
@@ -18,5 +17,5 @@ export function ServiceVisitDetails({ slug }: { slug: string }) {
       <p><a className="text-link" href="/ceny">Все тарифы, заморозка и включённые услуги →</a></p>
       <p><a className="text-link" href="/kontakty">Как добраться и связаться с бассейном →</a></p>
     </div></div>
-  </section></>;
+  </section>;
 }

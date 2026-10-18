@@ -1,5 +1,7 @@
 import editorialContent from "./editorial-content.json";
-import { annualTariff, parkingTerms, visitPackageTerms } from "./pricing-data";
+import localGrowthContent from "./local-growth-content.json";
+import { formatPoolPrice, poolOffer, poolOfferName, poolOfferVisitPrice } from "./pool-offer";
+import { parkingTerms, visitPackageTerms } from "./pricing-data";
 
 export const site = {
   name: "Открытый бассейн «Наутилус»",
@@ -65,10 +67,10 @@ export const services: Service[] = [
     title: "Абонементы в открытый бассейн в Хабаровске",
     shortTitle: "Абонементы",
     eyebrow: "Плавать регулярно",
-    description: "Абонементы в открытый бассейн «Наутилус» в Хабаровске: карты по посещениям и безлимит. Сравните тарифы, сроки и включённые услуги.",
-    price: `${annualTariff.summary} при оплате года`,
+    description: `${poolOfferName}: ${poolOfferVisitPrice} ₽ за визит при использовании всей карты. Полная стоимость ${formatPoolPrice(poolOffer.totalPrice)} ₽, срок ${poolOffer.days} дней, сеанс ${poolOffer.minutes} минут. «Наутилус», Хабаровск, Советская, 1 к4.`,
+    price: `${poolOfferVisitPrice} ₽/визит · абонемент ${formatPoolPrice(poolOffer.totalPrice)} ₽`,
     image: images.pool,
-    benefits: ["Карты по посещениям и безлимит", "Удобный режим посещений", "Услуги по выбранному тарифу", "Подбор по вашему графику"],
+    benefits: [`${poolOffer.visits} посещений за ${poolOffer.days} дней`, `Сеанс ${poolOffer.minutes} минут`, "Баня в подарок", "Есть другие карты и безлимит"],
     sections: [
       { title: "Как выбрать карту", text: "Сначала определите, сколько раз в неделю вы реально будете плавать и в какое время удобно приезжать. Сравните цену выбранной карты с разовыми визитами и учтите включённые услуги." },
       { title: "Услуги по тарифу", text: `${visitPackageTerms} В безлимит на 30 дней включена сауна. ${parkingTerms}` },
@@ -76,6 +78,8 @@ export const services: Service[] = [
       { title: "Безлимитный формат", text: "Безлимит подходит тем, кто тренируется часто, плавает для восстановления или чередует бассейн с баней. Вы получаете свободу планировать занятия без подсчёта оставшихся посещений." },
     ],
     faq: [
+      { q: `Можно ли прийти один раз за ${poolOfferVisitPrice} ₽?`, a: `Это расчётная цена посещения при покупке и полном использовании карты на ${poolOffer.visits} посещений за ${formatPoolPrice(poolOffer.totalPrice)} ₽. Разовый визит с баней стоит ${formatPoolPrice(poolOffer.singleVisitPrice)} ₽.` },
+      { q: "Что входит в предложение с баней?", a: `${poolOffer.visits} посещений за ${poolOffer.days} дней, сеанс ${poolOffer.minutes} минут. Баня в подарок. Парковка не включена. Дату активации и порядок посещения бани уточнит администратор до оплаты.` },
       { q: "Можно ли заморозить абонемент?", a: "Условия заморозки зависят от выбранной карты. Администратор расскажет о сроках до покупки." },
       { q: "Можно ли передать карту другому человеку?", a: "Клубные карты обычно персональные. Точные условия выбранного тарифа указаны в договоре." },
     ],
@@ -748,7 +752,8 @@ export const articles: Article[] = [
     return revision ? { ...article, ...revision, date: article.date } : article;
   }),
   ...revisedArticles.filter((article) => !baseArticles.some((existing) => existing.slug === article.slug)),
-].sort((a, b) => (b.modified ?? b.date).localeCompare(a.modified ?? a.date));
+  ...localGrowthContent as Article[],
+].sort((a, b) => (b.modified ?? b.date).localeCompare(a.modified ?? a.date) || b.date.localeCompare(a.date));
 
 export const getService = (slug: string) => services.find((item) => item.slug === slug);
 export const getArticle = (slug: string) => articles.find((item) => item.slug === slug);

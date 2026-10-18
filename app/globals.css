@@ -1113,3 +1113,6 @@ footer a.tipa-credit, footer a.tipa-credit:active { opacity: 1; }
 .category-pills a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 .blog-topic { padding-bottom: 64px; scroll-margin-top: 110px; }
 .blog-topic > h2 { margin-bottom: 28px; }
+
+.membership-hero-price { display: grid; gap: 6px; }
+.membership-hero-price span { white-space: nowrap; }

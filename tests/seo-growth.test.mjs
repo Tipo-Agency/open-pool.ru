@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { access } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import test from 'node:test';
 const { default: worker } = await import('../dist/server/index.js');
 const env = { ASSETS: { fetch: async () => new Response('Not found', { status: 404 }) } };
@@ -8,7 +8,8 @@ const render = path => worker.fetch(new Request(`https://open-pool.ru${path}`), 
 test('journal navigation reaches all articles and its category anchors exist', async () => {
   const html = await (await render('/blog')).text();
   const links = [...new Set([...html.matchAll(/href="(\/blog\/[^"?#]+)"/g)].map(m=>m[1]))];
-  assert.equal(links.length,66);
+  const growth = JSON.parse(await readFile(new URL('../app/local-growth-content.json', import.meta.url), 'utf8'));
+  assert.equal(links.length,66 + growth.length);
   for (const [,id] of html.matchAll(/href="#(topic-\d+)"/g)) assert.ok(html.includes(`id="${id}"`));
   for (const [,src] of html.matchAll(/src="(\/photos\/[^"?]+)"/g)) await access(new URL(`../public${src}`,import.meta.url));
   assert.doesNotMatch(html, /src="https:\/\/static.tildacdn.com/);

@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: path === "" ? "weekly" as const : "monthly" as const,
     priority: path === "" ? 1 : path === "/blog" ? 0.8 : 0.85,
   }));
-  const servicePages = services.map((item) => ({ url: `${SITE_URL}/uslugi/${item.slug}`, lastModified: ["razovoe-poseshchenie", "svobodnoe-plavanie"].includes(item.slug) ? new Date("2026-10-18") : ["abonementy", "svobodnoe-plavanie", "obuchenie-plavaniyu-vzroslyh", "akvaaerobika"].includes(item.slug) ? new Date("2026-10-13") : serviceUpdated, changeFrequency: "monthly" as const, priority: 0.8 }));
+  const servicePages = services.map((item) => ({ url: `${SITE_URL}/uslugi/${item.slug}`, lastModified: ["abonementy", "razovoe-poseshchenie", "svobodnoe-plavanie"].includes(item.slug) ? new Date("2026-10-18") : ["obuchenie-plavaniyu-vzroslyh", "akvaaerobika"].includes(item.slug) ? new Date("2026-10-13") : serviceUpdated, changeFrequency: "monthly" as const, priority: 0.8 }));
   const articlePages = articles.map((item) => ({ url: `${SITE_URL}/blog/${item.slug}`, lastModified: new Date(item.modified ?? item.date), changeFrequency: "monthly" as const, priority: 0.7 }));
   return [...staticPages, ...servicePages, ...articlePages];
 }

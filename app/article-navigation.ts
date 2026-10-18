@@ -4,8 +4,13 @@ export const visitGuides = [
   "plavanie-v-otkrytom-basseyne-zimoy", "plavanie-i-banya",
   "pervyy-vizit-v-nautilus", "kak-vybrat-basseyn-v-habarovske",
 ];
+export const membershipGuides = [
+  "semeynyy-abonement-na-dvoih-habarovsk",
+  "basseyn-na-mashine-parkovka-habarovsk",
+  "seans-basseyna-70-ili-90-minut",
+];
 const clusters = [
-  ["kak-vybrat-abonement-v-basseyn", "razovoe-ili-abonement", "byudzhet-na-basseyn", "abonement-zamorozka-propuski"],
+  ["kak-vybrat-abonement-v-basseyn", ...membershipGuides, "razovoe-ili-abonement", "byudzhet-na-basseyn", "abonement-zamorozka-propuski"],
   ["chto-vzyat-v-basseyn", "pervyy-vizit-v-nautilus", "dokumenty-dlya-basseyna-nautilus", "voprosy-administratoru-basseyna"],
   ["skolko-kaloriy-szhigaet-plavanie", "stili-plavaniya", "pitaniya-do-i-posle-basseyna"],
   ["kak-nauchit-rebenka-plavat", "rebenok-ne-hochet-v-basseyn", "kak-vybrat-gruppu-plavaniya-rebenku"],
