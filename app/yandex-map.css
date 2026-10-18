@@ -1,0 +1,36 @@
+/* Keep the existing map dimensions while loading the widget only on request. */
+.map-on-demand .map-preview {
+  position: absolute;
+  inset: 0 0 64px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--ink);
+  text-align: center;
+}
+.map-on-demand .map-preview > svg { color: var(--blue-strong); flex-shrink: 0; }
+.map-on-demand .map-preview > strong { font-size: 19px; line-height: 1.35; }
+.map-on-demand .map-preview > p { margin: 0; color: var(--ink); font-size: 15px; line-height: 1.5; }
+.map-on-demand .map-preview > button { min-height: 44px; }
+.map-on-demand .map-route-link {
+  position: absolute;
+  inset: auto 0 0;
+  min-height: 64px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-strong);
+  background: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.map-on-demand.yandex-map iframe { height: calc(100% - 64px); }
+.map-on-demand :is(button, a, iframe):focus-visible { outline: 3px solid var(--ink); outline-offset: -4px; }

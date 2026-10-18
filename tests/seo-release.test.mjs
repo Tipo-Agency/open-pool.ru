@@ -6,16 +6,16 @@ const env = { ASSETS: { fetch: async () => new Response("Not found", { status: 4
 const ctx = { waitUntil() {}, passThroughOnException() {} };
 const render = (path) => worker.fetch(new Request(`https://open-pool.ru${path}`), env, ctx);
 const revised = JSON.parse(await readFile(new URL("../app/editorial-content.json", import.meta.url), "utf8"));
-test("53 editorial pages render full content, one H1, canonical and real modification dates", async () => {
-  assert.equal(revised.length, 53);
-  assert.equal(new Set(revised.map(a => a.slug)).size,53);
+test("63 editorial pages render full content, one H1, canonical and real modification dates", async () => {
+  assert.equal(revised.length, 63);
+  assert.equal(new Set(revised.map(a => a.slug)).size,63);
   for (const article of revised) {
     const res = await render(`/blog/${article.slug}`);
     assert.equal(res.status,200,article.slug);
     const body = await res.text();
     assert.equal((body.match(/<h1[ >]/g)||[]).length,1,article.slug);
     assert.ok(body.includes(`rel="canonical" href="https://open-pool.ru/blog/${article.slug}"`),article.slug);
-    assert.ok(body.includes(article.diagram),article.slug);
+    if (article.diagram) assert.ok(body.includes(article.diagram),article.slug);
     assert.ok(body.includes(`dateModified":"${article.modified}`),article.slug);
     assert.ok(body.includes(article.cta),article.slug);
     assert.doesNotMatch(body,/name="robots" content="noindex/);

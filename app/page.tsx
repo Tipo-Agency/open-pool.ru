@@ -1,3 +1,6 @@
+import { PoolOfferCard } from "./pool-offer-card";
+import { poolOffer, poolOfferName, poolOfferVisitPrice, formatPoolPrice } from "./pool-offer";
+import "./sales-updates.css";
 import { visitGuides } from "./article-navigation";
 import { poolImageProps } from "./pool-image";
 /* eslint-disable @next/next/no-html-link-for-pages */
@@ -10,7 +13,7 @@ import { createPageMetadata, SITE_URL } from "./seo";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Открытый бассейн в Хабаровске",
-  description: "Плавание под открытым небом круглый год. 8 дорожек по 50 метров, вода +28 °C, баня, пляж и парковка. Разовое посещение от 500 ₽.",
+  description: "Открытый бассейн в Хабаровске: 50 метров, вода +28 °C круглый год. 30 посещений с баней за 14 970 ₽: 499 ₽ за визит при полном использовании карты.",
   path: "/",
 });
 
@@ -91,12 +94,13 @@ export default function Home() {
                 <span className="hero-line hero-line-bottom">под открытым небом</span>
               </h1>
               <div className="hero-v2-bottom">
-                <p>Открытый бассейн в центре Хабаровска. Восемь дорожек, тёплая вода, баня и пляж. Плывём каждый день.</p>
+                <p>Бассейн и баня за {poolOfferVisitPrice} ₽ за посещение по абонементу. {poolOffer.visits} визитов за {formatPoolPrice(poolOffer.totalPrice)} ₽, срок {poolOffer.days} дней, сеанс {poolOffer.minutes} минут.</p>
                 <div className="hero-actions">
-                  <a className="button button-lime hero-primary" href="#booking" data-booking>Выбрать свой заплыв <span>↗</span></a>
-                  <a className="hero-price-link" href="#booking" data-booking><span>разово от</span><strong>500 ₽</strong></a>
+                  <a className="button button-lime hero-primary" href="#booking" data-booking data-goal={`${poolOfferName}, ${formatPoolPrice(poolOffer.totalPrice)} ₽`} data-form-name="Главная: оффер 499, первый экран" data-submit-label="Хочу бассейн и баню">Хочу бассейн и баню <span>↗</span></a>
+                  <a className="hero-price-link" href="#pool-sauna-offer"><span>за визит в абонементе</span><strong>{poolOfferVisitPrice} ₽</strong></a>
                 </div>
               </div>
+              <p className="hero-offer-terms">Полная оплата {formatPoolPrice(poolOffer.totalPrice)} ₽. Цена визита рассчитана при использовании всех {poolOffer.visits} посещений. Баня в подарок, парковка не включена.</p>
               <div className="hero-rail" aria-label="Главные преимущества">
                 <span><b>08</b> дорожек</span><span><b>50</b> метров</span><span><b>365</b> дней</span>
               </div>
@@ -110,6 +114,8 @@ export default function Home() {
               </div>)}
             </div>
           </section>
+
+          <div className="home-offer-wrap"><PoolOfferCard formName="Главная: 30 посещений с баней" /></div>
 
           <section className="manifesto">
             <div className="manifesto-heading">
@@ -167,7 +173,7 @@ export default function Home() {
         <section className="section pricing-preview" id="passes">
           <div className="section-heading centered-heading"><span className="section-kicker">Цены без квеста</span><h2>Начните с удобного варианта</h2><p>Точная стоимость клубной карты зависит от срока и режима посещений. Ниже простые точки входа.</p></div>
           <div className="price-grid">
-            <article className="price-card"><span>Один визит</span><h3>Разовое посещение</h3><div className="price"><strong>от 500</strong><i>₽</i></div><ul><li>Плавание</li><li>Раздевалки и душевые</li><li>Парковка не включена</li><li>Условия посещения сауны и пляжа уточните отдельно</li></ul><a className="outline-button" href="#booking" data-booking>Узнать условия</a></article>
+            <article className="price-card"><span>Один визит с баней</span><h3>Бассейн и баня</h3><div className="price"><strong>{formatPoolPrice(poolOffer.singleVisitPrice)}</strong><i>₽</i></div><ul><li>Разовое посещение бассейна с баней</li><li>Раздевалки и душевые</li><li>Парковка не включена</li><li>Время и условия визита уточнит администратор</li></ul><a className="outline-button" href="#booking" data-booking data-goal="Разовый визит с баней за 1 500 ₽" data-form-name="Главная: разовый визит с баней">Узнать условия визита</a></article>
             <article className="price-card featured-price"><span>Оптимальный старт</span><h3>Безлимит на 90 дней</h3><div className="price"><strong>{featuredTariff.price}</strong><i>₽</i></div><p>{featuredTariff.summary} при оплате за 90 дней</p><ul>{featuredTariff.details.map((detail) => <li key={detail}>{detail}</li>)}</ul><a className="button button-lime" href="#booking" data-booking data-goal="безлимит на 90 дней" data-form-name="Главная: безлимит на 90 дней" data-submit-label="Зафиксировать тариф">Зафиксировать тариф</a></article>
             <article className="price-card"><span>С тренером</span><h3>Групповые занятия</h3><div className="price"><strong>по запросу</strong></div><ul><li>Группа по уровню</li><li>План тренировки</li><li>Обратная связь тренера</li></ul><a className="outline-button" href="/raspisanie">Смотреть расписание</a></article>
           </div>
@@ -209,7 +215,7 @@ export default function Home() {
         </section>
           <aside className="mobile-sticky-cta" aria-label="Быстрая запись">
             <a href={`tel:${site.phoneHref}`}>Позвонить</a>
-            <a href="#booking" data-booking>Выбрать заплыв</a>
+            <a href="#booking" data-booking data-goal={`${poolOfferName}, ${formatPoolPrice(poolOffer.totalPrice)} ₽`} data-form-name="Главная: оффер 499, нижняя кнопка">499 ₽/визит в карте</a>
           </aside>
         </main>
       </div>

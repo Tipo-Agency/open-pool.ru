@@ -48,9 +48,9 @@ export function BookingModal() {
         <div className="booking-dialog-copy">
           <BrandLogo className="brand-logo-light booking-brand-logo" />
           <span className="section-kicker">Запись и подбор</span>
-          <h2 id="booking-title">Найдём ваш формат плавания</h2>
-          <p>Оставьте имя, телефон и цель. Администратор получит заявку, уточнит время и стоимость и свяжется с вами.</p>
-          <ul><li>Разовый заплыв от 500 ₽</li><li>Абонементы для регулярных визитов</li><li>Детские и взрослые группы</li></ul>
+          <h2 id="booking-title">{hideGoal ? "Узнать условия и записаться" : "Найдём ваш формат плавания"}</h2>
+          <p>{hideGoal ? goal : "Оставьте имя, телефон и цель. Администратор уточнит время и стоимость и свяжется с вами."}</p>
+          <ul><li>30 посещений с баней за 14 970 ₽</li><li>Абонементы для регулярных визитов</li><li>Детские и взрослые группы</li></ul>
           <a href="tel:+74212464916">Или позвоните: +7 4212 46-49-16</a>
         </div>
         <LeadForm key={`${formName}-${goal}`} formName={formName} defaultGoal={goal} hideGoal={hideGoal} submitLabel={submitLabel} />
