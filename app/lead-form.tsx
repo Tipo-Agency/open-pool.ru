@@ -104,7 +104,7 @@ export function LeadForm({
     <form
       className={`lead-form${compact ? " lead-form-compact" : ""}`}
       onSubmit={submit}
-      onFocusCapture={() => {
+      onInputCapture={() => {
         if (startedTracking.current) return;
         startedTracking.current = true;
         trackSiteEvent("lead_form_start", { form_name: formName });
