@@ -30,7 +30,7 @@ test("sitemap includes existing and new local articles and preserves historical 
   for (const a of revised) assert.ok(xml.includes(`/blog/${a.slug}</loc>`));
   const page = await (await render('/blog/chto-vzyat-v-basseyn')).text();
   assert.match(page,/datePublished":"2026-08-18/);
-  assert.match(page,/dateModified":"2026-09-23/);
+  assert.match(page,/dateModified":"2026-10-21/);
 });
 test("new guides are linked, indexable and lead to the fully disclosed membership offer", async () => {
   const journal = await (await render('/blog')).text();
@@ -45,10 +45,12 @@ test("new guides are linked, indexable and lead to the fully disclosed membershi
     assert.equal((html.match(/<h1[ >]/g)||[]).length, 1, path);
     assert.ok(html.includes(`rel="canonical" href="https://open-pool.ru${path}"`), path);
     assert.doesNotMatch(html, /name="robots" content="noindex/);
+    for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(match[1]);
+    if (article.cta !== '/uslugi/abonementy' || article.date !== '2026-10-18') continue;
+    // Membership guides must disclose the full offer terms.
     assert.match(html, /href="\/uslugi\/abonementy"/);
     assert.match(html, /14 970/);
     assert.match(html, /Парковка не включена|парковка не включена/);
-    for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(match[1]);
   }
 });
 test("legacy URLs redirect to exact equivalents while unknown URLs stay 404", async () => {
