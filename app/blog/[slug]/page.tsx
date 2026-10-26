@@ -2,7 +2,7 @@ import { poolImageProps } from "../../pool-image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleCards, Breadcrumbs, Footer, Header, JsonLd, PageCta } from "../../components";
-import { articles, getArticle, getArticleImage, getService, services, site } from "../../data";
+import { articles, getArticle, getArticleImage, getService, services } from "../../data";
 import { createPageMetadata, SITE_URL } from "../../seo";
 import { formatPoolPrice, poolOffer, poolOfferName, poolOfferTerms, poolOfferVisitPrice } from "../../pool-offer";
 
@@ -55,6 +55,5 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <section className="article-service-section"><div className="section-heading"><span className="section-kicker">Перейти к практике</span><h2>Подходящие форматы плавания</h2></div><div className="article-service-links">{relatedServices.map((service) => <a key={service.slug} href={`/uslugi/${service.slug}`}><span>{service.eyebrow}</span><strong>{service.shortTitle}</strong><small>{service.price}</small></a>)}</div></section>
     <section className="related-articles"><div className="section-heading"><span className="section-kicker">Читайте дальше</span><h2>Ещё о плавании</h2></div><ArticleCards limit={3} exclude={article.slug} /></section>
     <PageCta title="Перейдите от чтения к воде" text="Подберём первое посещение, группу или абонемент под ваш уровень и график." />
-    {contextualService && <nav className="article-mobile-cta" aria-label="Быстрый переход к занятиям"><a href={article.cta}>{membership ? "Абонементы с баней" : "Занятия в Хабаровске"}</a><a href={`tel:${site.phoneHref}`}>Позвонить</a></nav>}
   </main><Footer /></>;
 }

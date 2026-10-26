@@ -34,6 +34,28 @@ function readCookie(name: string) {
   return document.cookie.match(new RegExp(`(?:^|; )${escaped}=([^;]*)`))?.[1] || "";
 }
 
+const UTM_COOKIE = "op_utm";
+
+function readUtmCookie(): Record<string, string> {
+  try {
+    return JSON.parse(decodeURIComponent(readCookie(UTM_COOKIE)) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+/** UTM текущего URL, сессии или cookie на 30 дней (последний заход с метками). */
+export function readStoredUtm() {
+  const attribution = readAttribution();
+  return {
+    utm_source: attribution.utmSource,
+    utm_medium: attribution.utmMedium,
+    utm_campaign: attribution.utmCampaign,
+    utm_content: attribution.utmContent,
+    utm_term: attribution.utmTerm,
+  };
+}
+
 function readAttribution() {
   let stored: Record<string, string> = {};
   try {
@@ -43,7 +65,8 @@ function readAttribution() {
   }
 
   const current = new URLSearchParams(window.location.search);
-  const value = (key: string) => current.get(key) || stored[key] || "";
+  const cookie = readUtmCookie();
+  const value = (key: string) => current.get(key) || stored[key] || cookie[key] || "";
   return {
     landingPage: stored.landingPage || window.location.href,
     pageUrl: window.location.href,

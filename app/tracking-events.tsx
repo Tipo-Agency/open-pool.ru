@@ -13,6 +13,17 @@ function linkKind(link: HTMLAnchorElement) {
   return "";
 }
 
+// Цели из ТЗ 26.10.2026. Отправляются вместе с прежними событиями, чтобы не оборвать историю целей.
+function linkGoal(link: HTMLAnchorElement) {
+  const href = link.getAttribute("href") || "";
+  if (href.startsWith("tel:")) return "click_phone";
+  if (/t\.me\//i.test(href)) return "click_telegram";
+  if (/max\.ru\//i.test(href)) return "click_max";
+  if (/vk\.(com|me)\//i.test(href)) return "click_vk";
+  if (/apps\.apple\.com|play\.google\.com/i.test(href)) return "click_app";
+  return "";
+}
+
 export function TrackingEvents() {
   useEffect(() => {
     const articlePath = window.location.pathname.startsWith("/blog/") ? window.location.pathname : "";
@@ -22,10 +33,13 @@ export function TrackingEvents() {
       if (!element) return;
 
       if (element.matches("[data-booking]")) {
+        const ctaText = element.textContent?.trim().slice(0, 120) || "";
         trackSiteEvent("booking_open", {
-          cta_text: element.textContent?.trim().slice(0, 120) || "",
+          cta_text: ctaText,
           page_path: window.location.pathname,
         });
+        trackSiteEvent("form_open", { interest: element.dataset.goal || "подбор абонемента", cta_text: ctaText, page_path: window.location.pathname });
+        if (element.matches("[data-compare]")) trackSiteEvent("click_compare_abonement", { page_path: window.location.pathname });
         return;
       }
 
@@ -34,6 +48,8 @@ export function TrackingEvents() {
         if (articlePath && destination.origin === window.location.origin && (destination.pathname.startsWith("/uslugi/") || destination.pathname === "/ceny")) {
           trackSiteEvent("article_service_click", { article_path: articlePath, service_path: destination.pathname });
         }
+        const goal = linkGoal(element);
+        if (goal) trackSiteEvent(goal, { link_url: element.href, page_path: window.location.pathname });
         const kind = linkKind(element);
         if (kind) {
           trackSiteEvent(kind, {

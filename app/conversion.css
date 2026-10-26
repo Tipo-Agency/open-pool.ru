@@ -1,0 +1,32 @@
+/* Разовое посещение против карты на 30 посещений */
+.compare-bridge { width: min(1180px, calc(100% - 32px)); margin: 56px auto; padding: 40px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px 40px; border-radius: 30px; color: white; background: linear-gradient(135deg, var(--blue-strong), var(--blue)); box-shadow: 0 30px 80px var(--shadow-blue); }
+.compare-bridge .section-kicker { color: var(--lime); }
+.compare-bridge h2 { margin: 10px 0 14px; font-family: var(--font-unbounded); font-size: clamp(26px, 3vw, 38px); line-height: 1.12; }
+.compare-bridge p { margin: 0; color: rgba(255,255,255,.88); line-height: 1.6; }
+.compare-bridge-credit { margin-top: 12px !important; padding: 10px 14px; border-radius: 12px; background: rgba(255,255,255,.12); }
+.compare-bridge-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-self: center; }
+.compare-bridge-cards article { padding: 22px; display: grid; gap: 6px; border-radius: 20px; background: rgba(255,255,255,.1); }
+.compare-bridge-cards span { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; opacity: .85; }
+.compare-bridge-cards strong { font-family: var(--font-unbounded); font-size: clamp(28px, 3vw, 40px); line-height: 1; }
+.compare-bridge-cards small { font-size: 13px; opacity: .85; }
+.compare-bridge-cards article:first-child strong { text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: rgba(255,255,255,.5); }
+.compare-bridge-best { color: var(--ink); background: white !important; }
+.compare-bridge-best span, .compare-bridge-best small { opacity: 1; color: var(--ink-soft); }
+.compare-bridge-saving { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto; gap: 8px 28px; align-items: center; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.2); }
+.compare-bridge-saving .button { grid-row: span 2; }
+.compare-bridge-terms { font-size: 13px; opacity: .8; }
+
+/* Общая мобильная панель связи */
+.mobile-action-bar { display: none; }
+@media (max-width: 760px) {
+  .compare-bridge { margin: 36px auto; padding: 26px 20px; grid-template-columns: 1fr; border-radius: 24px; }
+  .compare-bridge-cards article { padding: 16px; }
+  .compare-bridge-saving { grid-template-columns: 1fr; }
+  .compare-bridge-saving .button { grid-row: auto; justify-self: stretch; text-align: center; }
+
+  body .footer { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+  .mobile-action-bar { position: fixed; z-index: 60; inset-inline: 10px; inset-block-end: calc(10px + env(safe-area-inset-bottom)); padding: 6px; display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 6px; border-radius: 19px; background: rgba(3,43,58,.9); backdrop-filter: blur(18px); box-shadow: 0 18px 55px rgba(0,0,0,.3); }
+  .mobile-action-bar a { min-height: 50px; display: grid; place-items: center; border-radius: 13px; color: white; font-size: 13px; font-weight: 850; }
+  .mobile-action-bar a:nth-child(2) { color: var(--ink); background: var(--lime); }
+  body:has(dialog[open]) .mobile-action-bar { display: none; }
+}

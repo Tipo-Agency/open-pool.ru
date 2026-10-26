@@ -53,7 +53,7 @@ export function BookingModal() {
           <ul><li>30 посещений с баней за 14 970 ₽</li><li>Абонементы для регулярных визитов</li><li>Детские и взрослые группы</li></ul>
           <a href="tel:+74212464916">Или позвоните: +7 4212 46-49-16</a>
         </div>
-        <LeadForm key={`${formName}-${goal}`} formName={formName} defaultGoal={goal} hideGoal={hideGoal} submitLabel={submitLabel} />
+        <LeadForm key={`${formName}-${goal}`} formName={formName} defaultGoal={goal} submitLabel={submitLabel} />
       </div>
       <button className="dialog-close" type="button" aria-label="Закрыть форму" onClick={close}>×</button>
     </dialog>

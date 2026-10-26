@@ -8,6 +8,7 @@ import { createPageMetadata, SITE_URL } from "../../seo";
 import { PoolOfferCard } from "../../pool-offer-card";
 import { formatPoolPrice, poolOffer, poolOfferName, poolOfferVisitPrice } from "../../pool-offer";
 import { membershipGuides } from "../../article-navigation";
+import { SingleVsMembership } from "../../conversion";
 
 export function generateStaticParams() { return services.map((item) => ({ slug: item.slug })); }
 
@@ -26,6 +27,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   return <><Header /><main className="inner-page"><JsonLd data={schema} /><Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Услуги", href: "/uslugi" }, { label: service.shortTitle }]} />
     <section className="service-detail-hero"><div><span className="section-kicker">{service.eyebrow}</span><h1>{service.title}</h1><p>{service.description}</p><div className="hero-actions"><a className="button" href="#booking" data-booking data-goal={membership ? `${poolOfferName}, ${formatPoolPrice(poolOffer.totalPrice)} ₽` : service.shortTitle} data-form-name={`Услуга: ${service.slug}`} data-submit-label={membership ? "Узнать условия абонемента" : "Уточнить запись"}>{membership ? "Хочу бассейн и баню" : "Узнать условия"}</a><strong className={membership ? "membership-hero-price" : undefined}>{membership ? <><span>{poolOfferVisitPrice} ₽ за визит</span><span>Абонемент {formatPoolPrice(poolOffer.totalPrice)} ₽</span></> : service.price}</strong></div></div><div><img {...poolImageProps(service.image, true)} alt={service.title} /><span>{membership ? `${poolOfferVisitPrice} ₽/визит при покупке ${poolOffer.visits} посещений` : service.price}</span></div></section>
     {membership && <PoolOfferCard formName="Абонементы: 30 посещений с баней" />}
+    {slug === "razovoe-poseshchenie" && <SingleVsMembership source="razovoe" />}
     <section className="benefit-row">{service.benefits.map((item, index) => <div key={item}><b>0{index + 1}</b><span>{item}</span></div>)}</section>
     <section className="content-sections">{service.sections.map((section, index) => <article key={section.title}><span>0{index + 1}</span><div><h2>{section.title}</h2><p>{section.text}</p></div></article>)}</section>
     <ServiceVisitDetails slug={service.slug} />
