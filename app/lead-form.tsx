@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import { trackSiteEvent } from "./analytics-client";
 import { readStoredUtm, sendLead } from "./lead-client";
-import { site } from "./data";
+import { site } from "./site";
 import "./lead-form.css";
 
 type FormField = "name" | "phone" | "consent";
@@ -71,19 +71,25 @@ export function LeadForm({
   const [phoneValue, setPhoneValue] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    startedAt.current = Date.now();
+  // Hidden inputs mirror the stored UTM; refilled on submit because React re-renders reset hidden values.
+  function fillHiddenFields(formElement: HTMLFormElement | null) {
     const values: Record<string, string> = { ...readStoredUtm(), page_url: window.location.href };
     for (const [field, value] of Object.entries(values)) {
-      const input = formRef.current?.elements.namedItem(field);
+      const input = formElement?.elements.namedItem(field);
       if (input instanceof HTMLInputElement) input.value = value;
     }
+  }
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+    fillHiddenFields(formRef.current);
   }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (sendingRef.current || completed) return;
     const formElement = event.currentTarget;
+    fillHiddenFields(formElement);
     const form = new FormData(formElement);
     const name = String(form.get("name") || "").trim();
     const phone = String(form.get("phone") || "").trim();

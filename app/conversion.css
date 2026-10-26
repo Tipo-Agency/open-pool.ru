@@ -7,7 +7,7 @@
 .compare-bridge-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-self: center; }
 .compare-bridge-cards article { padding: 22px; display: grid; gap: 6px; border-radius: 20px; background: rgba(255,255,255,.1); }
 .compare-bridge-cards span { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; opacity: .85; }
-.compare-bridge-cards strong { font-family: var(--font-unbounded); font-size: clamp(28px, 3vw, 40px); line-height: 1; }
+.compare-bridge-cards strong { white-space: nowrap; font-family: var(--font-unbounded); font-size: clamp(28px, 3vw, 40px); line-height: 1; }
 .compare-bridge-cards small { font-size: 13px; opacity: .85; }
 .compare-bridge-cards article:first-child strong { text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: rgba(255,255,255,.5); }
 .compare-bridge-best { color: var(--ink); background: white !important; }
@@ -25,12 +25,14 @@
 .article-offer li { padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.1); font-size: 14px; font-weight: 700; }
 .article-offer .compare-bridge-link { color: var(--lime); font-weight: 800; }
 .article-offer .lead-form { padding: 24px; border-radius: 22px; color: var(--ink); background: white; }
+.article-offer .lead-form p { color: var(--ink-soft); }
 
 /* Общая мобильная панель связи */
 .mobile-action-bar { display: none; }
 @media (max-width: 760px) {
   .compare-bridge { margin: 36px auto; padding: 26px 20px; grid-template-columns: 1fr; border-radius: 24px; }
   .compare-bridge-cards article { padding: 16px; }
+  .compare-bridge-cards strong { font-size: 26px; }
   .article-offer { margin: 36px auto; padding: 26px 20px; grid-template-columns: 1fr; border-radius: 24px; }
   .article-offer ul { grid-template-columns: 1fr; }
   .compare-bridge-saving { grid-template-columns: 1fr; }
@@ -50,3 +52,12 @@
 .photo-gallery img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 22px; display: block; }
 .photo-gallery figcaption { color: var(--ink-soft); font-size: 14px; }
 @media (max-width: 760px) { .photo-gallery { grid-template-columns: 1fr; } }
+
+/* Дополнительные секции посадочных страниц */
+.landing-extra a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+.landing-extra ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; list-style: disc; }
+.landing-extra .editorial-table { max-width: 100%; overflow-x: auto; }
+.landing-extra table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.landing-extra th, .landing-extra td { padding: 10px 12px; border: 1px solid rgba(3,43,58,.12); text-align: left; vertical-align: top; }
+.landing-extra article > *, .landing-extra article > div > * { min-width: 0; }
+@media (max-width: 760px) { .landing-extra article, .landing-extra article > div { grid-template-columns: minmax(0, 1fr); } }
