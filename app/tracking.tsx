@@ -17,6 +17,14 @@ const attributionScript = `
     });
     saved.lastPage = location.href;
     sessionStorage.setItem('openpool_attribution', JSON.stringify(saved));
+    var utm = {};
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','yclid','gclid'].forEach(function (key) {
+      var value = params.get(key);
+      if (value) utm[key] = value.slice(0, 200);
+    });
+    if (utm.utm_source || utm.utm_medium || utm.utm_campaign || utm.yclid || utm.gclid) {
+      document.cookie = 'op_utm=' + encodeURIComponent(JSON.stringify(utm)) + '; max-age=2592000; path=/; SameSite=Lax; Secure';
+    }
   } catch (error) {}
 })();`;
 

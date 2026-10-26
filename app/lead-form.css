@@ -24,3 +24,11 @@
 }
 
 .lead-receipt .form-status { overflow-wrap: anywhere; }
+
+.lead-receipt-bring { padding: 16px 18px; border-radius: 16px; background: var(--blue-wash); }
+.lead-receipt-bring strong { display: block; margin-bottom: 8px; }
+.lead-receipt-bring ul { margin: 0 0 10px; padding-left: 18px; display: grid; gap: 4px; }
+.lead-receipt-app { display: grid; gap: 10px; }
+.lead-receipt-app span { font-weight: 700; }
+.lead-receipt-app div { display: flex; flex-wrap: wrap; gap: 8px; }
+.lead-receipt-app a { padding: 10px 16px; border-radius: 12px; color: white; background: var(--ink); font-size: 14px; font-weight: 800; }

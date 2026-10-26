@@ -3,6 +3,7 @@ import { Breadcrumbs, Footer, Header, JsonLd, PageCta } from "../components";
 import { featuredTariff, freezeTerms, parkingTerms, tariffDate, unlimitedTariffs, visitPackageTerms, visitTariffs } from "../pricing-data";
 import { createPageMetadata } from "../seo";
 import { PoolOfferCard } from "../pool-offer-card";
+import { SingleVsMembership } from "../conversion";
 import { formatPoolPrice, poolOffer } from "../pool-offer";
 
 export const metadata: Metadata = createPageMetadata({ title: "Цены на бассейн и абонементы в Хабаровске", description: `Цены открытого бассейна «Наутилус» в Хабаровске: ${poolOffer.visits} посещений с баней за ${formatPoolPrice(poolOffer.totalPrice)} ₽, карты по посещениям и безлимит. Советская, 1 к4.`, path: "/ceny" });
@@ -19,6 +20,7 @@ export default function PricesPage() {
   return <><Header /><main className="inner-page"><JsonLd data={{ "@context": "https://schema.org", "@type": "OfferCatalog", name: "Тарифы открытого бассейна Наутилус", itemListElement: schemaOffers }} /><Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Цены" }]} />
     <section className="inner-hero"><span className="section-kicker">Тарифы от {tariffDate}</span><h1>Цены на открытый бассейн в Хабаровске</h1><p>Бассейн с баней: разовый визит за 1 500 ₽ или 499 ₽ за посещение при покупке карты на 30 визитов за 14 970 ₽. Бассейн «Наутилус» на Советской, 1 к4. Выбирайте карту по частоте визитов и нужным услугам. Сауна, пляж и парковка включены в разные тарифы на разных условиях.</p></section>
     <PoolOfferCard formName="Цены: 30 посещений с баней" />
+    <SingleVsMembership source="ceny" />
     <section className="membership-offer">
       <div><span>Наш выбор для старта</span><h2>3 месяца безлимитного плавания</h2><p>50-метровый бассейн под открытым небом, баня после заплыва, пляж и парковка.</p></div>
       <div className="membership-offer-price"><strong>{featuredTariff.price} ₽</strong><span>за 90 дней</span><small>{featuredTariff.summary} при оплате всего абонемента</small></div>

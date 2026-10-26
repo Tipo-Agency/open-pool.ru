@@ -6,6 +6,7 @@ import { BookingModal } from "./booking-modal";
 import { SITE_NAME, SITE_URL } from "./seo";
 import { TrackingHeadScripts, TrackingNoScript } from "./tracking";
 import { TrackingEvents } from "./tracking-events";
+import { MobileActionBar } from "./conversion";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <TrackingNoScript />
         <TrackingEvents />
         {children}
+        <MobileActionBar />
         <BookingModal />
       </body>
     </html>

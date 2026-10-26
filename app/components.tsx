@@ -56,6 +56,9 @@ export function Footer() {
           <strong>Информация</strong>
           <a href="/raspisanie">Расписание</a>
           <a href="/ceny">Цены</a>
+          <a href="/otkrytyy-basseyn-zimoy">Бассейн зимой</a>
+          <a href="/basseyn-50-metrov-habarovsk">Бассейн 50 метров</a>
+          <a href="/galereya">Фотогалерея</a>
           <a href="/blog">Полезные статьи</a>
           <a href="/kontakty">Контакты</a>
         </div>

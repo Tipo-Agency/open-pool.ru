@@ -1,4 +1,5 @@
 import { PoolOfferCard } from "./pool-offer-card";
+import { SingleVsMembership } from "./conversion";
 import { poolOffer, poolOfferName, poolOfferVisitPrice, formatPoolPrice } from "./pool-offer";
 import "./sales-updates.css";
 import { visitGuides } from "./article-navigation";
@@ -180,6 +181,8 @@ export default function Home() {
           <p className="tariff-disclaimer">{parkingTerms} <a href="/ceny">Все тарифы и включённые услуги</a></p>
         </section>
 
+        <SingleVsMembership source="home" />
+
         <section className="lead-section">
           <div className="lead-copy">
             <span className="section-kicker light-kicker">Подберём за несколько минут</span>
@@ -213,10 +216,6 @@ export default function Home() {
           <div><span className="section-kicker">Мы в центре Хабаровска</span><h2>Советская, 1 к4</h2><p>{site.hours}</p><div className="hero-actions"><a className="button button-lime" href="https://yandex.ru/maps/?text=Хабаровск%2C%20Советская%201%20к4">Построить маршрут</a><a className="text-link light-link" href={`tel:${site.phoneHref}`}>{site.phone} <span>→</span></a></div></div>
           <YandexMap />
         </section>
-          <aside className="mobile-sticky-cta" aria-label="Быстрая запись">
-            <a href={`tel:${site.phoneHref}`}>Позвонить</a>
-            <a href="#booking" data-booking data-goal={`${poolOfferName}, ${formatPoolPrice(poolOffer.totalPrice)} ₽`} data-form-name="Главная: оффер 499, нижняя кнопка">499 ₽/визит в карте</a>
-          </aside>
         </main>
       </div>
       <Footer />
