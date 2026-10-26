@@ -4,9 +4,9 @@ import { topicLandings } from "./landing-data";
 import { SITE_URL } from "./seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pageUpdates: Record<string, string> = { "": "2026-10-18", "/uslugi": "2026-10-18", "/ceny": "2026-10-18", "/raspisanie": "2026-10-05", "/kontakty": "2026-10-07", "/o-basseyne": "2026-10-18" };
+  const pageUpdates: Record<string, string> = { "": "2026-10-18", "/uslugi": "2026-10-18", "/ceny": "2026-10-18", "/raspisanie": "2026-10-05", "/kontakty": "2026-10-07", "/o-basseyne": "2026-10-18", "/galereya": "2026-10-26" };
   const serviceUpdated = new Date("2026-10-10");
-  const staticPages = ["", "/uslugi", "/ceny", "/raspisanie", "/kontakty", "/o-basseyne", "/blog"].map((path) => ({
+  const staticPages = ["", "/uslugi", "/ceny", "/raspisanie", "/kontakty", "/o-basseyne", "/galereya", "/blog"].map((path) => ({
     url: `${SITE_URL}${path}`,
     lastModified: path === "/blog" ? new Date(articles.reduce((latest, item) => (item.modified ?? item.date) > latest ? (item.modified ?? item.date) : latest, "2026-10-13")) : new Date(pageUpdates[path]),
     changeFrequency: path === "" ? "weekly" as const : "monthly" as const,

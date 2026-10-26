@@ -1,7 +1,8 @@
 import { poolImageProps } from "../../pool-image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArticleCards, Breadcrumbs, Footer, Header, JsonLd, PageCta } from "../../components";
+import { ArticleCards, Breadcrumbs, Footer, Header, JsonLd } from "../../components";
+import { ArticleOffer } from "../../conversion";
 import { articles, getArticle, getArticleImage, getService, services } from "../../data";
 import { createPageMetadata, SITE_URL } from "../../seo";
 import { formatPoolPrice, poolOffer, poolOfferName, poolOfferTerms, poolOfferVisitPrice } from "../../pool-offer";
@@ -52,8 +53,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <div className="expert-note"><strong>{article.editorial ? "Материал редакции сайта «Наутилус»" : "Материал подготовлен командой «Наутилуса»"}</strong><p>{article.category === "Гид по бассейну" ? <>Условия приведены на дату обновления материала. Перед оплатой сверьте состав карты и правила посещения. <a href="/ceny">Тарифы бассейна</a> и <a href="/kontakty">контакты администратора</a>.</> : "Статья носит информационный характер. При заболеваниях, боли или длительном перерыве обсудите нагрузку с врачом и тренером."}</p></div>
       </div></div>
     </article>
+    <ArticleOffer slug={article.slug} />
     <section className="article-service-section"><div className="section-heading"><span className="section-kicker">Перейти к практике</span><h2>Подходящие форматы плавания</h2></div><div className="article-service-links">{relatedServices.map((service) => <a key={service.slug} href={`/uslugi/${service.slug}`}><span>{service.eyebrow}</span><strong>{service.shortTitle}</strong><small>{service.price}</small></a>)}</div></section>
     <section className="related-articles"><div className="section-heading"><span className="section-kicker">Читайте дальше</span><h2>Ещё о плавании</h2></div><ArticleCards limit={3} exclude={article.slug} /></section>
-    <PageCta title="Перейдите от чтения к воде" text="Подберём первое посещение, группу или абонемент под ваш уровень и график." />
   </main><Footer /></>;
 }

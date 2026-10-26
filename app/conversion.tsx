@@ -1,5 +1,6 @@
 import { messageHref, site } from "./data";
 import "./conversion.css";
+import { LeadForm } from "./lead-form";
 import { formatPoolPrice, poolOffer, poolOfferVisitPrice } from "./pool-offer";
 
 // Зачёт стоимости разового посещения в абонемент ещё не подтверждён клубом.
@@ -47,5 +48,20 @@ export function MobileActionBar() {
       <a href="#booking" data-booking data-form-name="Мобильная панель">Записаться</a>
       <a href={messageHref} target="_blank" rel="noreferrer">Написать</a>
     </nav>
+  );
+}
+
+export function ArticleOffer({ slug }: { slug: string }) {
+  return (
+    <section className="article-offer" aria-labelledby="article-offer-title">
+      <div className="article-offer-copy">
+        <span className="section-kicker">Бассейн и баня по абонементу</span>
+        <h2 id="article-offer-title">{poolOffer.visits} посещений с баней за {formatPoolPrice(poolOffer.totalPrice)} ₽</h2>
+        <p>{poolOfferVisitPrice} ₽ за визит вместо {formatPoolPrice(poolOffer.singleVisitPrice)} ₽ за разовое посещение. Открытый бассейн 50 метров, вода около +28 °C круглый год.</p>
+        <ul><li>{poolOffer.visits} посещений за {poolOffer.days} дней</li><li>Сеанс {poolOffer.minutes} минут</li><li>Баня в подарок</li><li>Парковка не входит</li></ul>
+        <a className="compare-bridge-link" href="/ceny">Все тарифы</a>
+      </div>
+      <LeadForm formName={`Статья, оффер: ${slug}`} defaultGoal="подбор абонемента" submitLabel="Подобрать абонемент" />
+    </section>
   );
 }

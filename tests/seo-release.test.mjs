@@ -26,11 +26,11 @@ test("63 editorial pages render full content, one H1, canonical and real modific
 });
 test("sitemap includes existing and new local articles and preserves historical publication dates", async () => {
   const xml = await (await render('/sitemap.xml')).text();
-  assert.equal((xml.match(/<loc>/g)||[]).length,82 + growth.length);
+  assert.equal((xml.match(/<loc>/g)||[]).length,83 + growth.length);
   for (const a of revised) assert.ok(xml.includes(`/blog/${a.slug}</loc>`));
   const page = await (await render('/blog/chto-vzyat-v-basseyn')).text();
   assert.match(page,/datePublished":"2026-08-18/);
-  assert.match(page,/dateModified":"2026-10-21/);
+  assert.match(page,/dateModified":"2026-10-26/);
 });
 test("new guides are linked, indexable and lead to the fully disclosed membership offer", async () => {
   const journal = await (await render('/blog')).text();
@@ -62,7 +62,7 @@ test("legacy URLs redirect to exact equivalents while unknown URLs stay 404", as
 });
 test("topic landings and banya service are indexable and in the sitemap", async () => {
   const xml = await (await render('/sitemap.xml')).text();
-  for (const path of ['/uslugi/banya-i-sauna', '/basseyn-50-metrov-habarovsk', '/otkrytyy-basseyn-zimoy']) {
+  for (const path of ['/galereya', '/uslugi/banya-i-sauna', '/basseyn-50-metrov-habarovsk', '/otkrytyy-basseyn-zimoy']) {
     assert.ok(xml.includes(`${path}</loc>`), path);
     const response = await render(path);
     assert.equal(response.status, 200, path);
@@ -70,6 +70,6 @@ test("topic landings and banya service are indexable and in the sitemap", async 
     assert.equal((html.match(/<h1[ >]/g)||[]).length, 1, path);
     assert.ok(html.includes(`rel="canonical" href="https://open-pool.ru${path}"`), path);
     for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(match[1]);
-    assert.match(html, /data-form-name/);
+    assert.match(html, /data-booking/);
   }
 });

@@ -43,7 +43,7 @@ test("renders commercial and article routes with unique SEO metadata", async () 
   const articleHtml = await articleResponse.text();
   assert.match(serviceHtml, /<title>Абонементы в бассейн Хабаровска: 499 ₽ за визит \| Наутилус<\/title>/i);
   assert.match(serviceHtml, /https:\/\/schema\.org.*Service/);
-  assert.match(articleHtml, /Как взрослому начать плавать с нуля в Хабаровске/);
+  assert.match(articleHtml, /Как научиться плавать взрослому в Хабаровске/);
   assert.match(articleHtml, /https:\/\/schema\.org.*Article/);
   assert.match(articleHtml, /Частые вопросы/);
   assert.match(articleHtml, /rel="canonical" href="https:\/\/open-pool\.ru\/blog\/kak-nachat-plavat-vzroslomu"/);
