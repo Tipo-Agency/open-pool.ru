@@ -101,7 +101,7 @@ export default function Home() {
                   <a className="hero-price-link" href="#pool-sauna-offer"><span>за визит в абонементе</span><strong>{poolOfferVisitPrice} ₽</strong></a>
                 </div>
               </div>
-              <p className="hero-offer-terms">Полная оплата {formatPoolPrice(poolOffer.totalPrice)} ₽. Цена визита рассчитана при использовании всех {poolOffer.visits} посещений. Баня в подарок, парковка не включена.</p>
+              <p className="hero-offer-terms">Полная оплата {formatPoolPrice(poolOffer.totalPrice)} ₽, цена визита при использовании всех {poolOffer.visits} посещений.</p>
               <div className="hero-rail" aria-label="Главные преимущества">
                 <span><b>08</b> дорожек</span><span><b>50</b> метров</span><span><b>365</b> дней</span>
               </div>
@@ -127,7 +127,7 @@ export default function Home() {
             <div className="manifesto-grid">
               <div className="manifesto-image"><img {...poolImageProps(images.swim)} alt="Пловец на дорожке открытого бассейна" /><span>Свежий воздух<br />вместо потолка</span></div>
               <div className="manifesto-stat"><strong>365</strong><span>дней открыты<br />для плавания</span></div>
-              <div className="manifesto-copy"><b>Зима здесь выглядит иначе</b><p>Пар над водой, снег на бортике и длинная дорожка впереди. После заплыва вас ждёт горячая баня. Летом к ней добавляется пляж с лежаками.</p><a className="text-link" href="/o-basseyne">Почувствовать атмосферу <span>→</span></a></div>
+              <div className="manifesto-copy"><div className="manifesto-copy-photo"><img {...poolImageProps("/articles/plavanie-v-otkrytom-basseyne-zimoy.jpg", false, "(max-width: 760px) 100vw, 30vw")} alt="Пар над водой открытого бассейна зимой" /></div><b>Зима здесь выглядит иначе</b><p>Пар над водой, снег на бортике и длинная дорожка впереди. После заплыва вас ждёт горячая баня. Летом к ней добавляется пляж с лежаками.</p><a className="text-link" href="/o-basseyne">Почувствовать атмосферу <span>→</span></a></div>
             </div>
           </section>
 
@@ -139,7 +139,7 @@ export default function Home() {
           <div className="service-grid">
             {services.map((item, index) => (
               <article className={`service-card service-card-${index + 1}`} key={item.slug}>
-                <img {...poolImageProps(item.image, false, "(max-width: 760px) 100vw, 33vw")} alt={`${item.shortTitle} в открытом бассейне Наутилус`} />
+                <img {...poolImageProps(item.image, false, index === 6 ? "100vw" : "(max-width: 760px) 100vw, 33vw")} alt={`${item.shortTitle} в открытом бассейне Наутилус`} />
                 <div className="service-overlay" />
                 <span className="service-number">0{index + 1}</span>
                 <div className="service-card-body">

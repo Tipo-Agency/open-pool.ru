@@ -73,7 +73,7 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} Открытый бассейн «Наутилус»</span><a className="tipa-credit" href="https://tipa.uz/ru" target="_blank" rel="nofollow noopener noreferrer" aria-label="Сделано агентством TIPA"><span>Сделано</span><img src="/media/tipa-agency-animated.svg" alt="TIPA" width={64} height={42} /></a>
+        <span>© {new Date().getFullYear()} Открытый бассейн «Наутилус»</span><a className="tipa-credit" href="https://tipa.uz/ru" target="_blank" rel="nofollow noopener noreferrer" aria-label="Сделано агентством TIPA"><span>Сделано</span><img src="/media/tipa-agency-animated.svg" alt="TIPA" width={64} height={42} loading="lazy" decoding="async" /></a>
         <div className="footer-legal-links">
           <a href="/politika-konfidencialnosti">Политика конфиденциальности</a>
           <a href="/publichnaya-oferta">Публичная оферта</a>
