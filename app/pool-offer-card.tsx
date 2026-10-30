@@ -1,5 +1,5 @@
 import { JsonLd } from "./components";
-import { formatPoolPrice, poolOffer, poolOfferAmenityNote, poolOfferName, poolOfferTerms, poolOfferVisitPrice } from "./pool-offer";
+import { formatPoolPrice, poolOffer, poolOfferAdminNote, poolOfferAmenityNote, poolOfferName, poolOfferTerms, poolOfferVisitPrice } from "./pool-offer";
 import { SITE_URL } from "./seo";
 import "./pool-offer-card.css";
 
@@ -20,6 +20,6 @@ export function PoolOfferCard({ formName }: { formName: string }) {
     <div className="membership-offer-price"><strong>{formatPoolPrice(poolOffer.totalPrice)} ₽</strong><span>полная стоимость абонемента</span><small>{poolOffer.visits} посещений за {poolOffer.days} дней</small></div>
     <ul><li>Сеанс {poolOffer.minutes} минут</li><li>Баня в подарок</li><li>Парковка не включена</li></ul>
     <a className="button button-lime" href="#booking" data-booking data-goal={`${poolOfferName}, ${formatPoolPrice(poolOffer.totalPrice)} ₽`} data-form-name={formName} data-submit-label="Узнать условия абонемента">Хочу бассейн и баню</a>
-    <p className="pool-organic-offer-terms">{poolOfferAmenityNote} Разовый визит с баней стоит {formatPoolPrice(poolOffer.singleVisitPrice)} ₽. Цена {poolOfferVisitPrice} ₽ относится к посещению в абонементе.</p>
+    <p className="pool-organic-offer-terms">{poolOfferAdminNote} Разовый визит с баней стоит {formatPoolPrice(poolOffer.singleVisitPrice)} ₽. Цена {poolOfferVisitPrice} ₽ относится к посещению в абонементе.</p>
   </section>;
 }
