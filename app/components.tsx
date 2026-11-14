@@ -46,6 +46,7 @@ export function Footer() {
           <a className="brand footer-brand" href="/" aria-label="Наутилус, главная">
             <BrandLogo className="brand-logo-light" />
           </a>
+          <span className="footer-network">Бассейн сети фитнес-клубов «Наутилус»</span>
           <p>50 метров тёплой воды под открытым небом в центре Хабаровска.</p>
         </div>
         <div>
