@@ -42,7 +42,7 @@ test('october 21 articles render with one H1, self-canonical and Article JSON-LD
 });
 test('robots.txt keeps the sitemap, drops Host and cleans tracking parameters for Yandex', async () => {
   const robots = await (await render('/robots.txt')).text();
-  assert.match(robots, /User-Agent: Yandex[\s\S]*Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid/);
+  assert.match(robots, /User-Agent: Yandex[\s\S]*Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&utm_referrer&yclid&gclid&fbclid&calltouch_tm&etext&ysclid&_openstat&openstat&from/);
   assert.match(robots, /Disallow: \/__debug/);
   assert.match(robots, /Sitemap: https:\/\/open-pool\.ru\/sitemap\.xml/);
   assert.doesNotMatch(robots, /^Host:/m);
