@@ -1,7 +1,7 @@
 import { SITE_URL } from "../seo";
 
 // Served as plain text because MetadataRoute.Robots has no Clean-param directive for Yandex.
-const CLEAN_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "yclid", "gclid", "fbclid"];
+const CLEAN_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_referrer", "yclid", "gclid", "fbclid", "calltouch_tm", "etext", "ysclid", "_openstat", "openstat", "from"];
 
 export function GET() {
   const body = [
