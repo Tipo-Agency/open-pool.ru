@@ -28,7 +28,7 @@ test("server-renders the finished pool homepage", async () => {
   assert.match(html, /Для кого выбираем плавание/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /SportsActivityLocation/);
-  assert.match(html, /<meta property="og:image" content="https:\/\/open-pool\.ru\/og\.png"/);
+  assert.match(html, /<meta property="og:image" content="https:\/\/open-pool\.ru\/og\.jpg"/);
   assert.match(html, /\/logo-nautilus\.svg/);
   assert.doesNotMatch(html, /brand-mark/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
@@ -97,10 +97,12 @@ test("renders conversion modal, app links, map and rehabilitation content", asyn
   assert.match(articleHtml, /Бассейн после перелома ноги/);
   assert.match(articleHtml, /rehabilitation-pool\.jpg/);
   const growth = JSON.parse(await readFile(new URL("../app/local-growth-content.json", import.meta.url), "utf8"));
-  assert.match(blogHtml, new RegExp(`${66 + growth.length}(?:<!-- -->)? материалов`));
-  const articleImages = [...blogHtml.matchAll(/<img src="([^"]*\/photos\/article-[^"]+\.webp)"/g)].map((match) => match[1]);
-  assert.equal(articleImages.length, 40);
-  assert.equal(new Set(articleImages).size, 40);
+  const journal = JSON.parse(await readFile(new URL("../app/journal-2026-11.json", import.meta.url), "utf8"));
+  assert.match(blogHtml, new RegExp(`${66 + growth.length + journal.length}(?:<!-- -->)? материалов`));
+  // Лента журнала разбита на страницы по 12 статей, рубрики вынесены на /blog/tema/<slug>.
+  assert.equal((blogHtml.match(/<article class="article-card"/g) ?? []).length, 12);
+  assert.match(blogHtml, /href="\/blog\/stranica\/2"/);
+  assert.match(blogHtml, /href="\/blog\/tema\/zdorove"/);
 });
 
 test("renders complete legal documents from the official publication", async () => {
