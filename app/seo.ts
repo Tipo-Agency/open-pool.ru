@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.PUBLIC_SITE_URL;
 export const SITE_URL = (configuredSiteUrl || "https://open-pool.ru").replace(/\/$/, "");
 export const SITE_NAME = "Открытый бассейн «Наутилус»";
-export const DEFAULT_SOCIAL_IMAGE = "/og.png";
+export const DEFAULT_SOCIAL_IMAGE = "/og.jpg";
 
 type PageMetadataInput = {
   title: string;
