@@ -7,6 +7,7 @@ import { TrackingHeadScripts, TrackingNoScript } from "./tracking";
 import { TrackingEvents } from "./tracking-events";
 import { MobileActionBar } from "./conversion";
 import { BrandMotion } from "./brand-motion";
+import { CookieNotice } from "./cookie-notice";
 
 // Geologica, шрифт сети «Наутилус» по брендбуку 2026. Свои woff2 из брендбука, без Google Fonts.
 const geologicaFaces = [
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <MobileActionBar />
         <BookingModal />
         <BrandMotion />
+        <CookieNotice />
         <div className="op-scroll-progress" aria-hidden="true" />
       </body>
     </html>
