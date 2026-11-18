@@ -1193,3 +1193,12 @@ h3 { letter-spacing: -.03em; }
   .hero-backdrop, .manifesto-image img, .feature-image img, .manifesto-copy-photo img, .manifesto-statement span::before, .op-scroll-progress { animation: none !important; }
   .op-scroll-progress { display: none; }
 }
+
+/* Journal pagination and topic pages */
+.category-pills a[aria-current="page"] { background: var(--lime); }
+.category-pills a small { margin-left: 4px; opacity: .6; font-size: 11px; }
+.blog-pagination { padding: 0 0 100px; display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+.blog-pagination a, .blog-pagination span { min-width: 42px; padding: 11px 15px; border-radius: 999px; background: white; text-align: center; text-decoration: none; font-size: 13px; font-weight: 750; }
+.blog-pagination a:hover { background: var(--lime); }
+.blog-pagination a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.blog-pagination span[aria-current="page"] { background: var(--blue); color: white; }

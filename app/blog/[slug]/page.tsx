@@ -5,6 +5,7 @@ import { ArticleCards, Breadcrumbs, Footer, Header, JsonLd } from "../../compone
 import { ArticleOffer } from "../../conversion";
 import { articles, getArticle, getArticleImage, getService, services } from "../../data";
 import { createPageMetadata, SITE_URL } from "../../seo";
+import { categorySlug } from "../../blog-data";
 import { formatPoolPrice, poolOffer, poolOfferName, poolOfferTerms, poolOfferVisitPrice } from "../../pool-offer";
 
 export function generateStaticParams() { return articles.map((item) => ({ slug: item.slug })); }
@@ -38,7 +39,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     { "@context": "https://schema.org", "@type": "Article", "@id": `${SITE_URL}/blog/${article.slug}#article`, headline: article.title, description: article.description, image: articleImageUrl, datePublished: article.date, dateModified: article.modified ?? article.date, inLanguage: "ru-RU", mainEntityOfPage: `${SITE_URL}/blog/${article.slug}`, articleSection: article.category, keywords: [article.category, "плавание", "бассейн Хабаровск"], isPartOf: { "@id": `${SITE_URL}/blog#collection` }, about: { "@id": `${SITE_URL}/#pool` }, author: { "@type": "Organization", name: article.editorial ? "Редакция сайта «Наутилус»" : "Тренерская команда бассейна «Наутилус»", url: `${SITE_URL}/o-basseyne` }, publisher: { "@id": `${SITE_URL}/#organization`, "@type": "Organization", name: "Открытый бассейн «Наутилус»", logo: { "@type": "ImageObject", url: `${SITE_URL}/logo-nautilus.svg` } } },
     ...(article.faq.length ? [{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: article.faq.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })) }] : []),
   ];
-  return <><Header /><main className="article-page"><JsonLd data={schemas} /><Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Журнал", href: "/blog" }, { label: article.title }]} />
+  return <><Header /><main className="article-page"><JsonLd data={schemas} /><Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Журнал", href: "/blog" }, ...(categorySlug(article.category) ? [{ label: article.category, href: `/blog/tema/${categorySlug(article.category)}` }] : []), { label: article.title }]} />
     <article><header className="article-header"><div className="article-meta"><span>{article.category}</span><span>{article.readTime}</span><span>{published}</span>{article.modified && <span>Обновлено: {new Intl.DateTimeFormat("ru-RU").format(new Date(article.modified))}</span>}</div><h1>{article.title}</h1><p>{article.description}</p></header><figure className="article-hero-image"><img {...poolImageProps(articleImage, true, "(max-width: 900px) 100vw, 900px")} alt={article.title} /></figure>
       <div className="article-answer"><span>Короткий ответ</span><p>{article.answer}</p></div>
       {contextualService && <aside className="article-local-cta" aria-label="Занятия в Хабаровске">

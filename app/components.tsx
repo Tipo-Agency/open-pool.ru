@@ -129,11 +129,11 @@ export function PageCta({ title = "Подберём удобный формат 
   );
 }
 
-export function ArticleCards({ limit, exclude, slugs, category }: { limit?: number; exclude?: string; slugs?: string[]; category?: string }) {
+export function ArticleCards({ limit, exclude, slugs, category, items }: { limit?: number; exclude?: string; slugs?: string[]; category?: string; items?: typeof articles }) {
   const current = exclude ? articles.find((item) => item.slug === exclude) : undefined;
   const preferred = slugs ?? (exclude ? relatedArticleSlugs(exclude) : []);
   const rank = (slug: string) => preferred.includes(slug) ? preferred.indexOf(slug) : preferred.length;
-  const list = articles
+  const list = items ?? articles
     .filter((item) => item.slug !== exclude && (!category || item.category === category) && (!slugs || slugs.includes(item.slug)))
     .sort((a, b) => rank(a.slug) - rank(b.slug) || (current ? Number(b.category === current.category) - Number(a.category === current.category) : 0))
     .slice(0, limit ?? articles.length);

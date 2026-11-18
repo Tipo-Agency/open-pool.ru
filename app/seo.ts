@@ -29,8 +29,10 @@ export function createPageMetadata({
     ? { type, locale: "ru_RU", siteName: SITE_NAME, title: socialTitle, description, url: path, publishedTime, images: [{ url: image, alt: title }] }
     : { type, locale: "ru_RU", siteName: SITE_NAME, title: socialTitle, description, url: path, images: [{ url: image, alt: title }] };
 
+  // Шаблон layout добавляет « | Наутилус». Длинным заголовкам суффикс не нужен: поисковик всё равно обрежет.
+  const fullTitleLength = `${title} | Наутилус`.length;
   return {
-    title,
+    title: fullTitleLength > 70 ? { absolute: title } : title,
     description,
     alternates: { canonical: path },
     robots: {
