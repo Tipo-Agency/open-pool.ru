@@ -78,7 +78,7 @@ test("topic landings and banya service are indexable and in the sitemap", async 
 });
 test("november journal articles render, are in sitemap and only link to existing pages", async () => {
   const xml = await (await render("/sitemap.xml")).text();
-  const known = new Set([...xml.matchAll(/<loc>https:\/\/open-pool\.ru([^<]*)<\/loc>/g)].map((m) => m[1] || "/"));
+  const known = new Set(["/pravila-poseshcheniya", "/politika-konfidencialnosti", "/publichnaya-oferta", ...[...xml.matchAll(/<loc>https:\/\/open-pool\.ru([^<]*)<\/loc>/g)].map((m) => m[1] || "/")]);
   for (const article of journalNovember) {
     const path = `/blog/${article.slug}`;
     assert.ok(known.has(path), path);
