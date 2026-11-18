@@ -7,6 +7,9 @@ const ctx = { waitUntil() {}, passThroughOnException() {} };
 const render = (path) => worker.fetch(new Request(`https://open-pool.ru${path}`), env, ctx);
 const revised = JSON.parse(await readFile(new URL("../app/editorial-content.json", import.meta.url), "utf8"));
 const growth = JSON.parse(await readFile(new URL("../app/local-growth-content.json", import.meta.url), "utf8"));
+const journalNovember = JSON.parse(await readFile(new URL("../app/journal-2026-11.json", import.meta.url), "utf8"));
+const TOPIC_PAGES = 7;
+const topicHtml = async () => (await Promise.all(["gid-po-basseynu", "nachinayushchim", "tehnika", "zdorove", "detyam", "reabilitaciya", "60-plus"].map(async (slug) => (await render(`/blog/tema/${slug}`)).text()))).join("");
 test("63 editorial pages render full content, one H1, canonical and real modification dates", async () => {
   assert.equal(revised.length, 63);
   assert.equal(new Set(revised.map(a => a.slug)).size,63);
@@ -26,14 +29,14 @@ test("63 editorial pages render full content, one H1, canonical and real modific
 });
 test("sitemap includes existing and new local articles and preserves historical publication dates", async () => {
   const xml = await (await render('/sitemap.xml')).text();
-  assert.equal((xml.match(/<loc>/g)||[]).length,83 + growth.length);
+  assert.equal((xml.match(/<loc>/g)||[]).length,83 + growth.length + journalNovember.length + TOPIC_PAGES);
   for (const a of revised) assert.ok(xml.includes(`/blog/${a.slug}</loc>`));
   const page = await (await render('/blog/chto-vzyat-v-basseyn')).text();
   assert.match(page,/datePublished":"2026-08-18/);
   assert.match(page,/dateModified":"2026-10-26/);
 });
 test("new guides are linked, indexable and lead to the fully disclosed membership offer", async () => {
-  const journal = await (await render('/blog')).text();
+  const journal = await topicHtml();
   const xml = await (await render('/sitemap.xml')).text();
   for (const article of growth) {
     const path = `/blog/${article.slug}`;
@@ -71,5 +74,20 @@ test("topic landings and banya service are indexable and in the sitemap", async 
     assert.ok(html.includes(`rel="canonical" href="https://open-pool.ru${path}"`), path);
     for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(match[1]);
     assert.match(html, /data-booking/);
+  }
+});
+test("november journal articles render, are in sitemap and only link to existing pages", async () => {
+  const xml = await (await render("/sitemap.xml")).text();
+  const known = new Set(["/pravila-poseshcheniya", "/politika-konfidencialnosti", "/publichnaya-oferta", ...[...xml.matchAll(/<loc>https:\/\/open-pool\.ru([^<]*)<\/loc>/g)].map((m) => m[1] || "/")]);
+  for (const article of journalNovember) {
+    const path = `/blog/${article.slug}`;
+    assert.ok(known.has(path), path);
+    const response = await render(path);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    assert.equal((html.match(/<h1[ >]/g) || []).length, 1, path);
+    assert.ok(html.includes(`rel="canonical" href="https://open-pool.ru${path}"`), path);
+    for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(match[1]);
+    for (const section of article.sections) for (const [, href] of (section.html ?? "").matchAll(/href="([^"#]+)/g)) assert.ok(known.has(href), `${path} → ${href}`);
   }
 });

@@ -1,5 +1,6 @@
 import editorialContent from "./editorial-content.json";
 import localGrowthContent from "./local-growth-content.json";
+import journalNovember from "./journal-2026-11.json";
 import { formatPoolPrice, poolOffer, poolOfferName, poolOfferVisitPrice } from "./pool-offer";
 import { parkingTerms, visitPackageTerms } from "./pricing-data";
 
@@ -759,6 +760,7 @@ export const articles: Article[] = [
   }),
   ...revisedArticles.filter((article) => !baseArticles.some((existing) => existing.slug === article.slug)),
   ...localGrowthContent as Article[],
+  ...journalNovember as Article[],
 ].sort((a, b) => (b.modified ?? b.date).localeCompare(a.modified ?? a.date) || b.date.localeCompare(a.date));
 
 export const getService = (slug: string) => services.find((item) => item.slug === slug);

@@ -7,10 +7,17 @@ const ctx = { waitUntil() {}, passThroughOnException() {} };
 const render = path => worker.fetch(new Request(`https://open-pool.ru${path}`), env, ctx);
 test('journal navigation reaches all articles and its category anchors exist', async () => {
   const html = await (await render('/blog')).text();
-  const links = [...new Set([...html.matchAll(/href="(\/blog\/[^"?#]+)"/g)].map(m=>m[1]))];
+  // Все статьи доступны со страниц рубрик, на которые ссылается лента журнала.
+  const topics = [...new Set([...html.matchAll(/href="(\/blog\/tema\/[^"?#]+)"/g)].map(m=>m[1]))];
+  const links = new Set();
+  for (const topic of topics) {
+    const page = await render(topic);
+    assert.equal(page.status, 200, topic);
+    for (const [,href] of (await page.text()).matchAll(/href="(\/blog\/[^"?#]+)"/g)) if (!/^\/blog\/(tema|stranica)\//.test(href)) links.add(href);
+  }
   const growth = JSON.parse(await readFile(new URL('../app/local-growth-content.json', import.meta.url), 'utf8'));
-  assert.equal(links.length,66 + growth.length);
-  for (const [,id] of html.matchAll(/href="#(topic-\d+)"/g)) assert.ok(html.includes(`id="${id}"`));
+  const journal = JSON.parse(await readFile(new URL('../app/journal-2026-11.json', import.meta.url), 'utf8'));
+  assert.equal(links.size,66 + growth.length + journal.length);
   for (const [,src] of html.matchAll(/src="(\/photos\/[^"?]+)"/g)) await access(new URL(`../public${src}`,import.meta.url));
   assert.doesNotMatch(html, /src="https:\/\/static.tildacdn.com/);
   assert.match(html,/srcSet="[^"]+\.webp/);

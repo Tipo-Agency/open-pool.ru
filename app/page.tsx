@@ -33,7 +33,7 @@ const localBusiness = {
       "@type": ["SportsActivityLocation", "LocalBusiness"],
       "@id": `${SITE_URL}/#pool`,
       name: site.name,
-      image: `${SITE_URL}/og.png`,
+      image: `${SITE_URL}/og.jpg`,
       logo: `${SITE_URL}/logo-nautilus.svg`,
       url: SITE_URL,
       telephone: site.phone,

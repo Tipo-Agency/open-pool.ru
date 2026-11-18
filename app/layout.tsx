@@ -7,6 +7,7 @@ import { TrackingHeadScripts, TrackingNoScript } from "./tracking";
 import { TrackingEvents } from "./tracking-events";
 import { MobileActionBar } from "./conversion";
 import { BrandMotion } from "./brand-motion";
+import { CookieNotice } from "./cookie-notice";
 
 // Geologica, шрифт сети «Наутилус» по брендбуку 2026. Свои woff2 из брендбука, без Google Fonts.
 const geologicaFaces = [
@@ -52,13 +53,13 @@ export const metadata: Metadata = {
     title: "Плывите под открытым небом",
     description: "50-метровый открытый бассейн в Хабаровске. Вода +28 °C круглый год.",
     url: "/",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Открытый бассейн Наутилус в Хабаровске" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Открытый бассейн Наутилус в Хабаровске" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Плывите под открытым небом",
     description: "50-метровый открытый бассейн в Хабаровске. Вода +28 °C круглый год.",
-    images: ["/og.png"],
+    images: ["/og.jpg"],
   },
   robots: {
     index: true,
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <MobileActionBar />
         <BookingModal />
         <BrandMotion />
+        <CookieNotice />
         <div className="op-scroll-progress" aria-hidden="true" />
       </body>
     </html>

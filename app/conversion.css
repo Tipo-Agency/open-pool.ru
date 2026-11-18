@@ -61,3 +61,16 @@
 .landing-extra th, .landing-extra td { padding: 10px 12px; border: 1px solid rgba(3,43,58,.12); text-align: left; vertical-align: top; }
 .landing-extra article > *, .landing-extra article > div > * { min-width: 0; }
 @media (max-width: 760px) { .landing-extra article, .landing-extra article > div { grid-template-columns: minmax(0, 1fr); } }
+
+/* Уведомление о cookie: над мобильной панелью, не перекрывает кнопки связи */
+.cookie-notice { position: fixed; z-index: 55; inset-inline-start: 20px; inset-block-end: 20px; max-width: 420px; padding: 16px 16px 16px 20px; display: flex; align-items: center; gap: 14px; border-radius: 19px; color: white; background: rgba(3,43,58,.92); backdrop-filter: blur(18px); box-shadow: 0 18px 55px rgba(0,0,0,.3); }
+.cookie-notice p { margin: 0; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,.85); }
+.cookie-notice a { color: white; text-decoration: underline; text-underline-offset: 2px; }
+.cookie-notice button { flex: none; min-height: 42px; padding: 0 18px; border: 0; border-radius: 13px; color: var(--ink); background: var(--lime); font: inherit; font-size: 13px; font-weight: 850; cursor: pointer; }
+.cookie-notice button:hover { filter: brightness(.95); }
+.cookie-notice button:focus-visible, .cookie-notice a:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+body:has(dialog[open]) .cookie-notice { display: none; }
+@media (max-width: 760px) {
+  .cookie-notice { inset-inline: 10px; inset-block-end: calc(84px + env(safe-area-inset-bottom)); max-width: none; padding: 12px 12px 12px 16px; }
+  .cookie-notice p { font-size: 11px; }
+}

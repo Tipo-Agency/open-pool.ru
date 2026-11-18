@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.PUBLIC_SITE_URL;
 export const SITE_URL = (configuredSiteUrl || "https://open-pool.ru").replace(/\/$/, "");
 export const SITE_NAME = "Открытый бассейн «Наутилус»";
-export const DEFAULT_SOCIAL_IMAGE = "/og.png";
+export const DEFAULT_SOCIAL_IMAGE = "/og.jpg";
 
 type PageMetadataInput = {
   title: string;
@@ -29,8 +29,10 @@ export function createPageMetadata({
     ? { type, locale: "ru_RU", siteName: SITE_NAME, title: socialTitle, description, url: path, publishedTime, images: [{ url: image, alt: title }] }
     : { type, locale: "ru_RU", siteName: SITE_NAME, title: socialTitle, description, url: path, images: [{ url: image, alt: title }] };
 
+  // Шаблон layout добавляет « | Наутилус». Длинным заголовкам суффикс не нужен: поисковик всё равно обрежет.
+  const fullTitleLength = `${title} | Наутилус`.length;
   return {
-    title,
+    title: fullTitleLength > 70 ? { absolute: title } : title,
     description,
     alternates: { canonical: path },
     robots: {
